@@ -87,6 +87,10 @@ public class Crawler {
     
     private void operate(){
 		try {
+			ProcessBuilder pb = new ProcessBuilder();
+			
+			
+			
 			URL url = null;
 			int iPage = 1;
 			String targetUrl = null;
