@@ -32,15 +32,15 @@ public class IBKParser {
 	class AccountInfo {
     	//순번, 거래일시, 출금금액, 입금금액, 잔액, 거래내용, 상대계좌번호, 상대은행, CMS코드, 거래구분, 미결제(수표/어음) 열로 이루어진 데이터입니다.
     	private String regData = null;
-    	private long withdraw = 0;
-    	private long deposit = 0;
-    	private long balance = 0;
+    	private double withdraw = 0;
+    	private double deposit = 0;
+    	private double balance = 0;
     	private String contents = null;
     	private String srcAccNo = null;
     	private String srcBank = null;
     	private String CMSCode = null;
     	private String trType = null;
-    	private long nonPay = 0;
+    	private double nonPay = 0;
 		
     	protected String getRegData() {
 			return regData;
@@ -52,19 +52,19 @@ public class IBKParser {
 			return withdraw;
 		}
 		protected void setWithdraw(String withdraw) {
-			this.withdraw = Long.parseLong(withdraw);
+			this.withdraw = Double.parseDouble(withdraw);
 		}
 		protected double getDeposit() {
 			return deposit;
 		}
 		protected void setDeposit(String deposit) {
-			this.deposit = Long.parseLong(deposit);
+			this.deposit = Double.parseDouble(deposit);
 		}
 		protected double getBalance() {
 			return balance;
 		}
 		protected void setBalance(String balance) {
-			this.balance = Long.parseLong(balance);
+			this.balance = Double.parseDouble(balance);
 		}
 		protected String getContents() {
 			return contents;
@@ -100,7 +100,7 @@ public class IBKParser {
 			return nonPay;
 		}
 		protected void setNonPay(String nonPay) {
-			this.nonPay = Long.parseLong(nonPay);
+			this.nonPay = Double.parseDouble(nonPay);
 		}
     	
     	public String toString(){
