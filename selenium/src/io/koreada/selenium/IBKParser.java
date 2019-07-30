@@ -1,19 +1,132 @@
 package io.koreada.selenium;
 
-public class IBKParser {
-	public static void main(String [] args) {
-		IBKParser iParser = new IBKParser();
-		iParser.parse();
-		
+import java.util.ArrayList;
+import io.koreada.util.CommonConst;
 
+public class IBKParser {
+	public ArrayList<AccountInfo> parse(String aVal) {
+		ArrayList<AccountInfo> rows = new ArrayList<AccountInfo>();
+		String[] arr = aVal.split("\\p{C}");
+		AccountInfo accountInfo = null;
+		for(int i=0;i<arr.length;i++) {
+			if(i%10==0) { 
+				accountInfo = new AccountInfo();
+				accountInfo.setRegData(arr[i]);
+				accountInfo.setWithdraw(arr[i+1]);
+				accountInfo.setDeposit(arr[i+2]);
+				accountInfo.setBalance(arr[i+3]);
+				accountInfo.setContents(arr[i+4]);
+				accountInfo.setSrcAccNo(arr[i+5]);
+				accountInfo.setSrcBank(arr[i+6]);
+				accountInfo.setCMSCode(arr[i+7]);
+				accountInfo.setTrType(arr[i+8]);
+				accountInfo.setNonPay(arr[i+9]);
+//				rows.put(i/10, accountInfo);
+				rows.add(accountInfo);
+			}
+		}
+		
+		return rows;
 	}
 	
-	private void parse() {
-		String aTarget = "2019-07-22 07:06:1700.000-00000088463698.0002019년결산이자0.0002019-07-04 09:31:36014030.000-00000073594668.000신용카드연회비환출환출0.0002019-07-04 09:31:35014030.000-00000073608698.000신용카드연회비환출환출0.0002019-06-17 07:13:3200.000-00000014076376.0002019년결산이자0.0002019-06-10 11:12:04025000000.00013564394.000（주）아이티센기업은행인터넷0.0002019-06-04 09:14:31050000000.000-00000011435606.000한국금거래소디지털에기업은행인터넷0.0002019-06-03 16:36:15025000000.000-00000011435606.000강민정현금0.0002019-06-03 16:11:1408500000.000-00000011435606.000박정재기업은행스마트뱅킹0.0002019-06-03 15:53:45025000000.000-00000019935606.000현금0.0002019-06-03 14:01:51014000000.000-00000044935606.000김종인국민은행타행이체0.0002019-06-03 10:59:1202500000.000-00000058935606.000임정석우리은행타행이체0.0002019-05-20 07:11:1100.000-00000039547477.0002019년결산이자0.0002019-04-23 13:24:2904400.0004400.000공인인증서국민은행타행이체0.0002019-04-22 14:05:1000.0000.000신규0.000";
-		String[] arr = aTarget.split("\\p{C}");
-		System.out.println(arr.length);
-		for(int i=0;i<arr.length;i++) {
-			System.out.println("arr["+i+"]:"+arr[i]);
+	class AccountInfo {
+    	//순번, 거래일시, 출금금액, 입금금액, 잔액, 거래내용, 상대계좌번호, 상대은행, CMS코드, 거래구분, 미결제(수표/어음) 열로 이루어진 데이터입니다.
+    	private String regData = null;
+    	private double withdraw = 0;
+    	private double deposit = 0;
+    	private double balance = 0;
+    	private String contents = null;
+    	private String srcAccNo = null;
+    	private String srcBank = null;
+    	private String CMSCode = null;
+    	private String trType = null;
+    	private double nonPay = 0;
+		
+    	protected String getRegData() {
+			return regData;
 		}
-	}
+		protected void setRegData(String regData) {
+			this.regData = regData;
+		}
+		protected double getWithdraw() {
+			return withdraw;
+		}
+		protected void setWithdraw(String withdraw) {
+			this.withdraw = Double.parseDouble(withdraw);
+		}
+		protected double getDeposit() {
+			return deposit;
+		}
+		protected void setDeposit(String deposit) {
+			this.deposit = Double.parseDouble(deposit);
+		}
+		protected double getBalance() {
+			return balance;
+		}
+		protected void setBalance(String balance) {
+			this.balance = Double.parseDouble(balance);
+		}
+		protected String getContents() {
+			return contents;
+		}
+		protected void setContents(String contents) {
+			this.contents = contents;
+		}
+		protected String getSrcAccNo() {
+			return srcAccNo;
+		}
+		protected void setSrcAccNo(String srcAccNo) {
+			this.srcAccNo = srcAccNo;
+		}
+		protected String getSrcBank() {
+			return srcBank;
+		}
+		protected void setSrcBank(String srcBank) {
+			this.srcBank = srcBank;
+		}
+		protected String getCMSCode() {
+			return CMSCode;
+		}
+		protected void setCMSCode(String cMSCode) {
+			CMSCode = cMSCode;
+		}
+		protected String getTrType() {
+			return trType;
+		}
+		protected void setTrType(String trType) {
+			this.trType = trType;
+		}
+		protected double getNonPay() {
+			return nonPay;
+		}
+		protected void setNonPay(String nonPay) {
+			this.nonPay = Double.parseDouble(nonPay);
+		}
+    	
+    	public String toString(){
+    		StringBuffer ret = new StringBuffer();
+    		ret.append("(");
+    		ret.append(this.getRegData());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getWithdraw());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getDeposit());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getBalance());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getCMSCode());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getSrcAccNo());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getSrcBank());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getCMSCode());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getTrType());
+    		ret.append(CommonConst.COMMA);
+    		ret.append(this.getNonPay());
+    		ret.append(")");
+    		return ret.toString();
+    	}
+    }
 }
