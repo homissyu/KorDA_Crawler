@@ -2,7 +2,6 @@ package io.koreada.selenium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -56,7 +55,7 @@ public class DaumLogin {
             webElement.click();
             
             webElement = driver.findElement(By.className("login_account"));
-            ArrayList tempList = (ArrayList) webElement.findElements(By.tagName("A"));
+            ArrayList<?> tempList = (ArrayList<?>) webElement.findElements(By.tagName("A"));
             webElement = (WebElement) tempList.get(1);
             webElement.click();
             
@@ -70,18 +69,16 @@ public class DaumLogin {
             webElement.submit();
             
             webElement = driver.findElement(By.className("list_basis"));
-            tempList = (ArrayList) webElement.findElements(By.tagName("A"));
+            tempList = (ArrayList<?>) webElement.findElements(By.tagName("A"));
             webElement = (WebElement) tempList.get(0);
             webElement.click();
             
             Thread.sleep(1000);
             
-            HashMap tempMap = new HashMap();
+            HashMap<String, String> tempMap = new HashMap<String, String>();
             
             webElement = driver.findElement(By.className("list_mail"));
-            tempList = (ArrayList) webElement.findElements(By.tagName("LI"));
-            
-            Iterator it = tempList.iterator();
+            tempList = (ArrayList<?>) webElement.findElements(By.tagName("LI"));
             
             for(int i=0;i<tempList.size();i++) {
             	webElement = (WebElement) tempList.get(i);

@@ -52,9 +52,9 @@ public class CommonUtil {
 	    quickSort(aArr, hi + 1, aHi0);
 	}
 
-	public String getCurrentTime(){
+	public static String getCurrentTime(String dataFormat){
         Date date = new Date();
-        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat simpledateformat = new SimpleDateFormat(dataFormat);
         String s = simpledateformat.format(date);
         return s;
     }

@@ -65,7 +65,7 @@ public class Debug {
 
     private static Install mInstall = null;
     private static boolean mInitialized = false;
-    private static Vector mSubSystems = new Vector(5);
+    private static Vector<String> mSubSystems = new Vector<String>(5);
     private static int mVerbosity = 1;
 
     // write to mLogFile to get text into the log file.
@@ -100,7 +100,8 @@ public class Debug {
 
     // Constructor, read environment variable and set data members
     //--------------------------------------------------
-    public Debug() throws Exception {
+    @SuppressWarnings("deprecation")
+	public Debug() throws Exception {
         if (mInitialized)
             return;
 
@@ -137,7 +138,8 @@ public class Debug {
 
     // Constructor which can be called from within Install
     //--------------------------------------------------
-    public Debug(Install aInstall) throws Exception {
+    @SuppressWarnings("deprecation")
+	public Debug(Install aInstall) throws Exception {
         if (mInitialized)
             return;
 

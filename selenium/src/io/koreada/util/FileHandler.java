@@ -14,9 +14,19 @@ import java.io.Serializable;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Iterator;
+import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 /**
  * 
@@ -27,6 +37,7 @@ import java.util.stream.StreamSupport;
 public class FileHandler {
 	
 	String mSubSystem = (this.getClass()).getCanonicalName();
+	static ObjectMapper mapper = new ObjectMapper();
 	
 	public FileHandler(){
 	}
@@ -271,4 +282,77 @@ public class FileHandler {
         Debug.trace("com.jay.util.Debug", CommonConst.OPERATION_MODE, "Is this file ASCII ? : "+ bResult, Thread.currentThread().getStackTrace()[1].getLineNumber());
         return bResult;
     }
+    
+    /**
+     * @param sFileName
+     * @throws Exception
+     */
+    public static void remove(String sFileName) throws Exception{
+        File fFile = new File(sFileName);
+        fFile.delete();
+    }
+    
+    /**
+     * @param sFilePath
+     * @param sFileName
+     * @throws Exception
+     */
+    public void remove(String sFilePath, String sFileName) throws Exception{
+        File fFile = new File(sFilePath+File.separator+sFileName);
+        fFile.delete();
+    }
+    
+    public static Properties readProperyXML(String aFileName){
+    	Properties prop = new Properties();
+    	try {
+    		prop.loadFromXML(new FileInputStream(aFileName));
+    	} catch (InvalidPropertiesFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return prop;
+    }
+
+    public static void makeJsonFile(String aFilePath, Object obj) throws JsonGenerationException, JsonMappingException, IOException {
+    	mapper.writeValue(new File(aFilePath), obj);
+    }
+    
+    /**
+     * @param aMap
+     * @param aFileName
+     * @throws Exception
+     */
+    public static void makePropertyXML(HashMap<?, ?> aMap, String aFileName) throws Exception {
+		remove(aFileName);
+		Properties prop = new Properties();
+		Iterator<?> it = aMap.keySet().iterator();
+		String aKey;
+		FileOutputStream fOut = new FileOutputStream(aFileName);
+		
+		while(it.hasNext()){
+			aKey = (String)it.next();
+			prop.setProperty(aKey,(String)aMap.get(aKey));
+		}
+		prop.storeToXML(fOut,(String)aMap.get(CommonConst.SID_STRING),"UTF-8");
+		fOut.close();
+	}
+
+	public static void makePropertyXML(Hashtable<String, String> mEnvironment, String aFileName) throws Exception {
+		// TODO Auto-generated method stub
+		
+		HashMap<Object, Object> aMap = new HashMap<Object, Object>();
+		Iterator<String> it = mEnvironment.keySet().iterator();
+		while(it.hasNext()){
+			Object key = null;
+			key = it.next();
+			aMap.put(key, mEnvironment.get(key));
+		}
+		makePropertyXML(aMap, aFileName);
+	}
 }

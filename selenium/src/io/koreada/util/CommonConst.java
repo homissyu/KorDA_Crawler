@@ -1,7 +1,6 @@
 package io.koreada.util;
 
 import java.io.File;
-import java.net.URL;
 
 public class CommonConst{
 	public static final String CRWALER = "Crawler";
@@ -16,6 +15,8 @@ public class CommonConst{
     public static final String DEBUG_KIND_SIZE = "SIZE";
     public static final String DEBUG_KIND_DATE = "DATE";
     public static final long Max_DEBUG_FILE_LENGTH = 1024*1024*1024;
+    
+    public static final String DATA_FORMAT_SEC = "yyyyMMddHHmmss";
     
     public static final String T_DES = "TrippleDES";
     public static final String AES = "AES";
@@ -101,20 +102,22 @@ public class CommonConst{
 	public static final String PARITY_DIR = "parity";
 	
 	private static final File ROOT =  new File(File.listRoots()[0], CommonConst.CRWALER);
-//	private static final String ROOT_PATH = ROOT.getAbsolutePath();
-	private static final String ROOT_PATH = "/Users/karlchoi/CRaid";
+	private static final String ROOT_PATH = ROOT.getAbsolutePath();
 	public static final String SOURCE_PATH = ROOT_PATH + File.separator+CommonConst.SOURCE_DIR;
 	public static final String SPLIT_PATH = ROOT_PATH + File.separator + CommonConst.SPLIT_STRING;
 	public static final String META_PATH = SPLIT_PATH;
 	public static final String LOG_PATH = ROOT_PATH + File.separator + CommonConst.LOGS_DIR;
 	public static final String PARITY_PATH = SPLIT_PATH + File.separator + CommonConst.PARITY_DIR;
 	
-	 public static final String CHROME_DRIVER_ID = "webdriver.chrome.driver";
-	 public static final String EDGE_DRIVER_ID = "webdriver.edge.driver";
-	 public static final String IE_DRIVER_ID = "webdriver.ie.driver";
-	 public static final String CHROME_DRIVER_PATH = "/Users/karlchoi/Documents/Selenium/selenium-java-3.141.59/chromedriver";
-	 public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
-	 public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
+	public static final String CHROME_DRIVER_ID = "webdriver.chrome.driver";
+	public static final String EDGE_DRIVER_ID = "webdriver.edge.driver";
+	public static final String IE_DRIVER_ID = "webdriver.ie.driver";
+	public static final String CHROME_DRIVER_PATH = "/Users/karlchoi/Documents/Selenium/selenium-java-3.141.59/chromedriver";
+	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
+	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
+	public static final Object SID_STRING = "SID";
+	public static final String ACCOUNT_INFO_NAME = "accountInfo";
+	public static final String JSON_EXTENSION = "json";
 	 
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;

@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class Install {
     private static Debug mDebug = null;
-    private static Hashtable mEnvironment = new Hashtable();
+    private static Hashtable<String, String> mEnvironment = new Hashtable<String, String>();
 
     private static String mInstallDir = null;
 
@@ -24,9 +24,9 @@ public class Install {
     // these are key,value pairs which will override any existing key
     // with the new value for any Install object created AFTER they have
     // been "submitted" with the setOverride() function.
-    static Hashtable mPerProcessOverrides = new Hashtable();
+    static Hashtable<String, String> mPerProcessOverrides = new Hashtable<String, String>();
 
-    static Hashtable mAcceptedHash = null;
+    static Hashtable<String, String> mAcceptedHash = null;
 
     //
 
@@ -157,7 +157,9 @@ public class Install {
             confirmArguments(aArgs);
         }
         loadDefaults();
-        loadConfigFile(aArgs);
+        
+//        loadConfigFile(aArgs);
+        loadConfigXMLFile(aArgs);
         loadEnvironment();
         parseCommandLine(aArgs);
         finishInitialization();
@@ -172,7 +174,7 @@ public class Install {
     public void printEnvironment() {
         String key, value;
         System.out.println("\nInstall Environment .............");
-        for (Enumeration en = mEnvironment.keys(); en.hasMoreElements();) {
+        for (Enumeration<String> en = mEnvironment.keys(); en.hasMoreElements();) {
             key = (String)en.nextElement();
             value = (String)mEnvironment.get(key);
             System.out.println(key + "=" + value);
@@ -209,10 +211,10 @@ public class Install {
     }
 
     //--------------------------------------------------
-    public static Vector removeUsedArguments(String aArgs[]) {
+    public static Vector<String> removeUsedArguments(String aArgs[]) {
         int i;
         String arg;
-        Vector v = new Vector();
+        Vector<String> v = new Vector<String>();
 
         // get command line arguments into the environment
         // NOTE: command line arguments override everything!
@@ -244,7 +246,7 @@ public class Install {
         Properties props = System.getProperties();
         String name, value;
 
-        for (Enumeration en = props.propertyNames(); en.hasMoreElements();) {
+        for (Enumeration<?> en = props.propertyNames(); en.hasMoreElements();) {
             name = (String)en.nextElement();
             value = props.getProperty(name);
             mEnvironment.put(name, value);
@@ -252,14 +254,15 @@ public class Install {
     }
 
     //--------------------------------------------------
-    private void loadConfigFile(String aArgs[]) throws Exception {
+    @SuppressWarnings({ "deprecation", "unused" })
+	private void loadConfigFile(String aArgs[]) throws Exception {
         int i, l;
         String arg, name, value;
         Properties props = System.getProperties();
-        Vector buff = new Vector();
+        Vector<Object> buff = new Vector<Object>();
 
         // look for INSTALL_DIR and CONFIG_FILE in environment options
-        for (Enumeration en = props.propertyNames(); en.hasMoreElements(); ) {
+        for (Enumeration<?> en = props.propertyNames(); en.hasMoreElements(); ) {
             name = (String)en.nextElement();
             value = props.getProperty(name);
             if ((name.equals(INSTALL_DIR) || name.equals(CONFIG_FILE)) && !(value == null)) {
@@ -330,7 +333,7 @@ public class Install {
                         value = st.nextToken().trim();
                     }
                     if (name == null || name.equals("") || value == null || value.equals("")) {
-                        buff.addElement("Error at line " +
+                        buff.addElement("Error at line " + 
                                         new Integer(line_no).toString() +
                                         " in " + config_file +
                                         ": syntax error");
@@ -358,9 +361,11 @@ public class Install {
                         mEnvironment.put(name, value);
                     }
                 } // while
-
-            } catch (IOException e) {
+                
+//                FileHandler.makePropertyXML(mEnvironment, CommonConst.LOGS_DIR+File.separator+this.CONFIG_FILE_DEFAULT);
+            } catch (Exception e) {
                 System.out.println(IO_ERROR_WHILE_READING_CONFIG_FILE);
+                e.printStackTrace();
                 try {
                     fr.close();
                 } catch (IOException ee) { ; }
@@ -381,6 +386,48 @@ public class Install {
             throw new Exception(sb.toString());
         }
 
+    }
+    
+    private void loadConfigXMLFile(String aArgs[]) {
+        int i;
+        String arg, name, value;
+        Properties props = System.getProperties();
+        // look for INSTALL_DIR and CONFIG_FILE in environment options
+        for (Enumeration<?> en = props.propertyNames(); en.hasMoreElements(); ) {
+            name = (String)en.nextElement();
+            value = props.getProperty(name);
+            if ((name.equals(INSTALL_DIR) || name.equals(CONFIG_FILE)) && !(value == null)) {
+                mEnvironment.put(name, value);
+            }
+        }
+
+        // look for INSTALL_DIR and CONFIG_FILE in command line options
+        StringTokenizer st;
+        for (i = 0; i < aArgs.length; i++) {
+            arg = aArgs[i];
+            st = new StringTokenizer(arg, "=", false);
+            name = value = null;
+            if (st.hasMoreTokens()) {
+                name = st.nextToken();
+            }
+            if (st.hasMoreTokens()) {
+                value = st.nextToken();
+            }
+            if ((name.equals(INSTALL_DIR) || name.equals(CONFIG_FILE)) && !(value == null))  {
+                mEnvironment.put(name, value);
+            }
+        }
+        // find config file and parse it...
+        String config_file = getConfigFile();
+        
+        // actually read file...
+        Properties conFigProp = FileHandler.readProperyXML(config_file);
+        
+        for (Enumeration<?> en = conFigProp.propertyNames(); en.hasMoreElements(); ) {
+            name = (String)en.nextElement();
+            value = conFigProp.getProperty(name);
+            mEnvironment.put(name, value);
+        }
     }
 
     //--------------------------------------------------
@@ -403,7 +450,7 @@ public class Install {
 
         // Include all per-process overrides
         String key;
-        for (Enumeration en = mPerProcessOverrides.keys() ; en.hasMoreElements() ; ) {
+        for (Enumeration<String> en = mPerProcessOverrides.keys() ; en.hasMoreElements() ; ) {
             key = (String)en.nextElement();
             mEnvironment.put(key, mPerProcessOverrides.get(key));
         }
@@ -439,7 +486,7 @@ public class Install {
     //---------------------------------------------------
     // Return a copy of the Install data (used by the GUI to
     // display configuration info for other components).
-    public Hashtable getData() {
+    public Hashtable<String, String> getData() {
         return(mEnvironment);
     }
 
@@ -533,7 +580,7 @@ public class Install {
     //--------------------------------------------------
     void ensureAcceptedHash() {
         if (mAcceptedHash == null) {
-            mAcceptedHash = new Hashtable();
+            mAcceptedHash = new Hashtable<String, String>();
             for (int i = 0; i < Accepted.length; i++)
                 mAcceptedHash.put(Accepted[i], Accepted[i]);
         }
@@ -541,7 +588,7 @@ public class Install {
 
     //--------------------------------------------------
     void confirmArguments(String args[]) throws Exception {
-        Vector buff = new Vector();
+        Vector<Object> buff = new Vector<Object>();
         String arg, name, value;
         StringTokenizer st;
 

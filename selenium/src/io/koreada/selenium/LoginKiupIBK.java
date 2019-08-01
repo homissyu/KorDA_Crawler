@@ -2,7 +2,6 @@ package io.koreada.selenium;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,10 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.koreada.util.CommonConst;
 
@@ -33,7 +29,8 @@ public class LoginKiupIBK {
     //크롤링 할 URL
     private String base_url;
     
-    public LoginKiupIBK() {
+    @SuppressWarnings("deprecation")
+	public LoginKiupIBK() {
     	
         //System Property SetUp
         System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.CHROME_DRIVER_PATH);
@@ -104,7 +101,7 @@ public class LoginKiupIBK {
 //            momElement = momElement.findElement(By.className("tbl_txt3"));
 //            ArrayList tempList = (ArrayList) momElement.findElements(By.tagName("A"));
 //            momElement = driver.findElement(By.xpath(".//*[@id='btn_def']"));
-            ArrayList tempList = (ArrayList) driver.findElements(By.xpath(".//*[@class='btn_lay_etc']"));
+            ArrayList<?> tempList = (ArrayList<?>) driver.findElements(By.xpath(".//*[@class='btn_lay_etc']"));
             WebElement schBtnElement = (WebElement) tempList.get(0);
             schBtnElement.click();
             
@@ -116,12 +113,12 @@ public class LoginKiupIBK {
             momElement = driver.findElement(By.xpath("//*[@id='grid_area']"));
             WebElement resultTable = momElement.findElement(By.xpath("//TABLE"));
             WebElement resultTbody = resultTable.findElement(By.xpath("//TBODY"));
-            tempList = (ArrayList) resultTbody.findElements(By.xpath("//TR"));
+            tempList = (ArrayList<?>) resultTbody.findElements(By.xpath("//TR"));
             
             Thread.sleep(30000);
             
             
-            ArrayList resultList = new ArrayList();
+            ArrayList<AccountInfos> resultList = new ArrayList<AccountInfos>();
             
             for(int i=0;i<tempList.size();i++) {
             	AccountInfos aifs = new AccountInfos();
@@ -194,8 +191,6 @@ public class LoginKiupIBK {
             	
             	resultList.add(aifs);
             }
-            
-            System.out.println(resultList);
 
         } catch (Exception e) {
             
