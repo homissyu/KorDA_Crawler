@@ -1,15 +1,10 @@
 package io.koreada.parser;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
-import io.koreada.util.CommonConst;
-import io.koreada.util.CommonUtil;
-import io.koreada.util.FileHandler;
 
 public class IBK {
 	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException {
@@ -33,13 +28,6 @@ public class IBK {
 				rows.add(accountInfo);
 			}
 		}
-		FileHandler.makeJsonFile(
-				CommonConst.LOGS_DIR + File.separator + 
-				CommonUtil.getCurrentTime(CommonConst.DATA_FORMAT_SEC)+ CommonConst.CURRENT_DIR+
-				CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + 
-				CommonConst.JSON_EXTENSION, rows);
 		return rows;
 	}
-	
-	
 }

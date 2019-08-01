@@ -46,6 +46,10 @@ public class Install {
     public static final String DEBUG_KIND_DEFAULT = "SIZE";     // DAY, SIZE
     public static final String MAX_LOGFILE_SIZE = "LOG.MAX_SIZE";
     public static final String MAX_LOGFILE_SIZE_DEFAULT = "4096"; // 4MB (4096K)
+    
+    public static final String RESULT_TYPE = "RESULT.TYPE"; // 
+    public static final String RESULT_TYPE_DEFAULT = "0"; // 0=TOTAL, 1=EVERY
+    
 
     // Database variables
 //    public static final String DB_TYPE = "DB.TYPE";
@@ -99,7 +103,8 @@ public class Install {
         // SMART BRIDGE
         SMART_BRIDGE_APP_NAME, SMART_BRIDGE_APP_NAME_DEFAULT,
         SMART_BRIDGE_IP, SMART_BRIDGE_IP_DEFAULT,
-        SMART_BRIDGE_PORT, SMART_BRIDGE_PORT_DEFAULT
+        SMART_BRIDGE_PORT, SMART_BRIDGE_PORT_DEFAULT,
+        RESULT_TYPE, RESULT_TYPE_DEFAULT
 
         // DB
 //        DB_TYPE, DB_TYPE_DEFAULT,

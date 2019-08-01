@@ -118,7 +118,9 @@ public class CommonConst{
 	public static final Object SID_STRING = "SID";
 	public static final String ACCOUNT_INFO_NAME = "accountInfo";
 	public static final String JSON_EXTENSION = "json";
-	 
+	public static final int RESULT_TOTAL = 0;
+	public static final int RESULT_EVERY = 1;
+	
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
 		}

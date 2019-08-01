@@ -23,10 +23,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /**
  * 
@@ -37,7 +33,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class FileHandler {
 	
 	String mSubSystem = (this.getClass()).getCanonicalName();
-	static ObjectMapper mapper = new ObjectMapper();
 	
 	public FileHandler(){
 	}
@@ -319,10 +314,6 @@ public class FileHandler {
     	return prop;
     }
 
-    public static void makeJsonFile(String aFilePath, Object obj) throws JsonGenerationException, JsonMappingException, IOException {
-    	mapper.writeValue(new File(aFilePath), obj);
-    }
-    
     /**
      * @param aMap
      * @param aFileName

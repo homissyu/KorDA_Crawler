@@ -4,15 +4,25 @@
 package io.koreada.crawler;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.koreada.parser.IBK;
+import io.koreada.util.CommonConst;
+import io.koreada.util.CommonUtil;
 import io.koreada.util.Debug;
 import io.koreada.util.Install;
 
@@ -34,9 +44,19 @@ public class Crawler {
 	private HttpsURLConnection mHttpsConn = null;
 	
 	private IBK ibkParser = new IBK();
-
+	
+	private ObjectMapper mapper = new ObjectMapper();
+	private String aFileName = CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + CommonConst.JSON_EXTENSION;
+	private JsonGenerator g = null;
+	
     // Constructor
-    public Crawler() {
+    public Crawler() throws FileNotFoundException, IOException {
+    	g = mapper.getFactory().createGenerator(
+    			new FileOutputStream(
+    					new File(
+    							CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + aFileName)
+    					)
+    			);
     }
 
     // Initial Start Method
@@ -49,7 +69,8 @@ public class Crawler {
     	ScheduleExecuteTask job = new ScheduleExecuteTask();
 	    Timer timer = new Timer();
 	    timer.scheduleAtFixedRate(job, 0, iInterval);
-    }
+	    
+	}
 
     // Initialize Method(Static Field Initial)
     private static void initialize(String[] args) {
@@ -75,7 +96,8 @@ public class Crawler {
         System.exit(0);
     }
     
-    private void operate(){
+    private ArrayList<?> operate(){
+    	ArrayList<?> ret = null;
 		try {
 			URL url = null;
 			BufferedReader in = null;
@@ -111,35 +133,66 @@ public class Crawler {
 		        	}
 		        }
 		        in.close();
-		        ibkParser.parse(response.toString());
+		        
+		        ret = ibkParser.parse(response.toString());
+		        
 			}else Debug.trace(SUBSYSTEM, 0, "ResponseCode:"+mHttpsConn.getResponseCode());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+"Not Available Yet !!");
 		} finally {
 		}
+		return ret;
 	}
 
 	// Main Method
 	public static void main(String[] args) {
 		Crawler.initialize(args);
-		Crawler wc = new Crawler();
+		Crawler wc = null;
 		try {
+			wc = new Crawler();
 			wc.start(args);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(!wc.g.isClosed())
+				try {
+					wc.g.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
     }
 
 	class ScheduleExecuteTask extends TimerTask {
-		public void run(){
-	    	if(!mShutdown){
-	    		operate();
-	    	}else{
-	    		Debug.closeErrLog();
-	    		System.exit(0);
-	    	}
-	    }
+		private ArrayList<?> obj = null;
+		
+    	public void run(){
+			try {	
+		    	if(!mShutdown){
+		    		obj = operate();
+		    		
+			    	switch(Integer.parseInt(mInstall.getProperty(Install.RESULT_TYPE))) {
+			    	case 0:
+			    		mapper.writeValue(g, obj);
+			    		break;
+			    	case 1:
+			    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATA_FORMAT_SEC)+ CommonConst.CURRENT_DIR + aFileName), obj);
+			    		break;
+			    	default:
+			    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATA_FORMAT_SEC)+ CommonConst.CURRENT_DIR + aFileName), obj);
+			    		break;
+			    	}
+		    	}else{
+		    		Debug.closeErrLog();
+		    		System.exit(0);
+		    	}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			} 
+	    }		
 	}
 
 }
