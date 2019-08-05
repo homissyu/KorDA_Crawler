@@ -82,7 +82,7 @@ public class LoginKiupIBK {
             
             jse.executeScript("document.getElementById('in_cus_acn').click;");
             jse.executeScript("document.getElementById('in_cus_acn').focus();");
-            Thread.sleep(100000);
+            Thread.sleep(1000);
             jse.executeScript("document.getElementById('in_cus_acn').value='05414414001019';");
             Thread.sleep(1000);
             

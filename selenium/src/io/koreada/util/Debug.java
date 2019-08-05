@@ -1,39 +1,3 @@
-/*************************************************************************
-* INVENIO PROPRIETARY AND CONFIDENTIAL INFORMATION			 *
-*									 *
-* Copyright 1997-1998 Invenio Technologies Corporation as an unpublished *
-* work. All rights reserved.					 	 *
-*								       	 *
-* This document and the information herein are Proprietary and     	 *
-* Confidential information of Invenio and not for general release,       *
-* Unauthorized use, reproduction, or dissemination is strictly           *
-* prohibited.								 *
-*************************************************************************/
-// The Debug class allows for runtime Debugging with various verbosity levels.
-//
-// The Debug class writes to the standard out stream (System.out.println).
-// An executable can also set a log file by calling setErrLog(<filename>). In
-// this case, output is written to both standard out and the log file.
-//
-// The verbosity level can be changed by setting the config variable MAX_LOGFILE_SIZE
-//      verbosity   - trace verbosity level at 1 to 4 (1 is less, 4 is max)
-//
-// To invoke the trace method, each module must instantiate a Debug object
-// at startup time to initialize the object (make sure the Install object has
-// already been created). Then you can use the trace() method. The
-// entire class is static, so all you need to do is call Debug.trace() or
-// Debug.traceError(). For example:
-//
-//      import Invenio.Util.Debug;
-//
-//      public static final String SUBSYSTEM = "DataPollingManager";
-//
-//      // Create a Debug object
-//      new Debug();
-//
-//      Debug.trace(SUBSYSTEM,1,"MESSAGE TEXT");
-//      Debug.trace(SUBSYSTEM,e,"MESSAGE TEXT");
-
 package io.koreada.util;
 
 import java.io.File;
@@ -94,7 +58,7 @@ public class Debug {
     private static final String LOGGING_LOGFILENAME = "Debug.log";
     private static final int LOGGING_LOGFILE_MAX_LENGTH = 1024 * 1024;
     private static final String LOGGING_LOGFILE_HEADER =
-                "# This is the logfile of the Maxigent logging facility.\n";
+                "# This is the logfile of the KorDA logging facility.\n";
 
     private static boolean mBatchMode = false;
 

@@ -38,7 +38,7 @@ public class Install {
     public static final String CONFIG_FILE_DEFAULT = "NWebChecker.conf";
 
     // Output Configuration
-    public static final String DEBUG_SUBSYSTEM = "LOG_SUBSYSTEM";
+    public static final String DEBUG_SUBSYSTEM = "LOG.SUBSYSTEM";
     public static final String DEBUG_SUBSYSTEM_DEFAULT = "ALL";
     public static final String DEBUG_VERBOSITY = "LOG.VERBOSITY";
     public static final String DEBUG_VERBOSITY_DEFAULT = "1";
@@ -48,9 +48,10 @@ public class Install {
     public static final String MAX_LOGFILE_SIZE_DEFAULT = "4096"; // 4MB (4096K)
     
     public static final String RESULT_TYPE = "RESULT.TYPE"; // 
-    public static final String RESULT_TYPE_DEFAULT = "0"; // 0=TOTAL, 1=EVERY
+    public static final String RESULT_TYPE_DEFAULT = "ALLWAYS"; // 0=TOTAL, 1=EVERY
     
-
+    public static final String RESULT_LOG_TYPE = "RESULT.LOG_TYPE";
+    public static final String RESULT_LOG_TYPE_DEFAULT = "TOTAL";
     // Database variables
 //    public static final String DB_TYPE = "DB.TYPE";
 //    public static final String DB_TYPE_DEFAULT = "ORACLE";
@@ -66,18 +67,16 @@ public class Install {
 //    public static final String DB_PASSWORD_DEFAULT = "";
 
     //  SMART BRIDGE
-    public static final String SMART_BRIDGE_APP_NAME = "SP.APP_NAME";
-    public static final String SMART_BRIDGE_APP_NAME_DEFAULT = "DS";
     public static final String SMART_BRIDGE_IP = "SB.IP";
     public static final String SMART_BRIDGE_IP_DEFAULT = "LOCALHOST";
-    public static final String SMART_BRIDGE_PORT = "SP.PORT";
-    public static final String SMART_BRIDGE_PORT_DEFAULT = "80";
-
+    public static final String SMART_BRIDGE_PARAM = "SB.PARAM";
+    public static final String SMART_BRIDGE_PARAM_DEFAULT = "";
+    
     // Daemon
     public static final String DAEMON_INTERVAL = "DAEMON.INTERVAL";
     public static final String DAEMON_INTERVAL_DEFAULT = "20"; //seconds
-    public static final String DB_INTERVAL = "DB.INTERVAL";
-    public static final String DB_INTERVAL_DEFAULT = "60"; //seconds
+//    public static final String DB_INTERVAL = "DB.INTERVAL";
+//    public static final String DB_INTERVAL_DEFAULT = "60"; //seconds
 
     private static final String UNDECODED_PASSWORD_STRING = "UNDECODED_PASSWORD_STRING";
 
@@ -101,10 +100,11 @@ public class Install {
         MAX_LOGFILE_SIZE, MAX_LOGFILE_SIZE_DEFAULT,
 
         // SMART BRIDGE
-        SMART_BRIDGE_APP_NAME, SMART_BRIDGE_APP_NAME_DEFAULT,
         SMART_BRIDGE_IP, SMART_BRIDGE_IP_DEFAULT,
-        SMART_BRIDGE_PORT, SMART_BRIDGE_PORT_DEFAULT,
-        RESULT_TYPE, RESULT_TYPE_DEFAULT
+        SMART_BRIDGE_PARAM, SMART_BRIDGE_PARAM_DEFAULT,
+        
+        RESULT_TYPE, RESULT_TYPE_DEFAULT,
+        RESULT_LOG_TYPE, RESULT_LOG_TYPE_DEFAULT
 
         // DB
 //        DB_TYPE, DB_TYPE_DEFAULT,

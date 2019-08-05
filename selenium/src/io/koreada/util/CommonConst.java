@@ -16,8 +16,6 @@ public class CommonConst{
     public static final String DEBUG_KIND_DATE = "DATE";
     public static final long Max_DEBUG_FILE_LENGTH = 1024*1024*1024;
     
-    public static final String DATA_FORMAT_SEC = "yyyyMMddHHmmss";
-    
     public static final String T_DES = "TrippleDES";
     public static final String AES = "AES";
     public static final String AES_CBC_PKCS5 = "AES/CBC/PKCS5Padding";
@@ -112,7 +110,7 @@ public class CommonConst{
 	public static final String CHROME_DRIVER_ID = "webdriver.chrome.driver";
 	public static final String EDGE_DRIVER_ID = "webdriver.edge.driver";
 	public static final String IE_DRIVER_ID = "webdriver.ie.driver";
-	public static final String CHROME_DRIVER_PATH = "/Users/karlchoi/Documents/Selenium/selenium-java-3.141.59/chromedriver";
+	public static final String CHROME_DRIVER_PATH = CommonConst.LIB_DIR+File.separator+"chromedriver";
 	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
 	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
 	public static final Object SID_STRING = "SID";
