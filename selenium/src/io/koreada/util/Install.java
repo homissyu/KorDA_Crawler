@@ -52,6 +52,7 @@ public class Install {
     
     public static final String RESULT_LOG_TYPE = "RESULT.LOG_TYPE";
     public static final String RESULT_LOG_TYPE_DEFAULT = "TOTAL";
+    
     // Database variables
 //    public static final String DB_TYPE = "DB.TYPE";
 //    public static final String DB_TYPE_DEFAULT = "ORACLE";
@@ -71,6 +72,12 @@ public class Install {
     public static final String SMART_BRIDGE_IP_DEFAULT = "LOCALHOST";
     public static final String SMART_BRIDGE_PARAM = "SB.PARAM";
     public static final String SMART_BRIDGE_PARAM_DEFAULT = "";
+    public static final String SMART_BRIDGE_COOKIE = "SB.COOKIE";
+    public static final String SMART_BRIDGE_COOKIE_DEFAULT = "";
+    public static final String SMART_BRIDGE_ACC_NO = "SB.ACC_NO";
+    public static final String SMART_BRIDGE_ACC_NO_DEFAULT = "";
+    public static final String SMART_BRIDGE_BIZ_NO = "SB.BIZ_NO";
+    public static final String SMART_BRIDGE_BIZ_NO_DEFAULT = "";
     
     // Daemon
     public static final String DAEMON_INTERVAL = "DAEMON.INTERVAL";
@@ -102,6 +109,9 @@ public class Install {
         // SMART BRIDGE
         SMART_BRIDGE_IP, SMART_BRIDGE_IP_DEFAULT,
         SMART_BRIDGE_PARAM, SMART_BRIDGE_PARAM_DEFAULT,
+        SMART_BRIDGE_COOKIE, SMART_BRIDGE_COOKIE_DEFAULT,
+        SMART_BRIDGE_ACC_NO, SMART_BRIDGE_ACC_NO_DEFAULT,
+        SMART_BRIDGE_BIZ_NO, SMART_BRIDGE_BIZ_NO_DEFAULT,
         
         RESULT_TYPE, RESULT_TYPE_DEFAULT,
         RESULT_LOG_TYPE, RESULT_LOG_TYPE_DEFAULT

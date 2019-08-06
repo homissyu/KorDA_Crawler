@@ -118,6 +118,7 @@ public class CommonConst{
 	public static final String JSON_EXTENSION = "json";
 	public static final int RESULT_TOTAL = 0;
 	public static final int RESULT_EVERY = 1;
+	public static final String TOUCH_EN_PC_PATH = CommonConst.LIB_DIR+File.separator+"TouchEn-PC보안-확장_v1.0.1.15.crx";
 	
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
