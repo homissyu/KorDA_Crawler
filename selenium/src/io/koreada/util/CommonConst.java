@@ -3,6 +3,7 @@ package io.koreada.util;
 import java.io.File;
 
 public class CommonConst{
+	public static final String OS = System.getProperty("os.name");
 	public static final String CRWALER = "Crawler";
     public static final String CURRENT_DIR = ".";
     public static final String COMMA = ",";
@@ -129,7 +130,7 @@ public class CommonConst{
 	public static final String FIREFOX_DRIVER_ID = "webdriver.gecko.driver";
 	
 	
-	public static final String WEBDRIVER_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.WEB_DRIVER_DIR_STR;
+	public static final String WEBDRIVER_PATH = CommonConst.LIB_DIR + File.separator + CommonConst.WEB_DRIVER_DIR_STR + File.separator + CommonConst.OS;
 	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
 	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
 	public static final Object SID_STRING = "SID";
