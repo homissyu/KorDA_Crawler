@@ -16,6 +16,8 @@ public class CommonConst{
     public static final String DEBUG_KIND_DATE = "DATE";
     public static final long Max_DEBUG_FILE_LENGTH = 1024*1024*1024;
     
+    
+    
     public static final String T_DES = "TrippleDES";
     public static final String AES = "AES";
     public static final String AES_CBC_PKCS5 = "AES/CBC/PKCS5Padding";
@@ -107,10 +109,27 @@ public class CommonConst{
 	public static final String LOG_PATH = ROOT_PATH + File.separator + CommonConst.LOGS_DIR;
 	public static final String PARITY_PATH = SPLIT_PATH + File.separator + CommonConst.PARITY_DIR;
 	
+	//0:Chrome, 1:Firefox, 2:PhantomJS, 3:Safari, 4:Edge, 5:IE
+    public static final String [] WEBDRIVER_STR_ARR = {CommonConst.CHROME_DRIVER,CommonConst.FIREFOX_DRIVER,CommonConst.PHANTOM_DRIVER,CommonConst.SAFARI_DRIVER,CommonConst.EDGE_DRIVER,CommonConst.IE_DRIVER};
+    public static final String [] WEBDRIVER_ID_ARR = {CommonConst.CHROME_DRIVER_ID,CommonConst.FIREFOX_DRIVER_ID,CommonConst.PHANTOM_DRIVER_ID,CommonConst.SAFARI_DRIVER_ID,CommonConst.EDGE_DRIVER_ID,CommonConst.IE_DRIVER_ID};
+    public static final String OS_NAME = "Mac OS X";
+	
+	public static final String CHROME_DRIVER = "chromedriver";
+	public static final String EDGE_DRIVER = "msedgedriver";
+	public static final String IE_DRIVER = "IEDRiverServer.exe";
+	public static final String PHANTOM_DRIVER = "phantomjs";
+	public static final String SAFARI_DRIVER = "safaridriver";
+	public static final String FIREFOX_DRIVER = "geckodriver";
+	
 	public static final String CHROME_DRIVER_ID = "webdriver.chrome.driver";
 	public static final String EDGE_DRIVER_ID = "webdriver.edge.driver";
 	public static final String IE_DRIVER_ID = "webdriver.ie.driver";
-	public static final String CHROME_DRIVER_PATH = CommonConst.LIB_DIR+File.separator+"chromedriver";
+	public static final String PHANTOM_DRIVER_ID = "phantomjs.binary.path";
+	public static final String SAFARI_DRIVER_ID = "webdriver.safari.driver";
+	public static final String FIREFOX_DRIVER_ID = "webdriver.gecko.driver";
+	
+	
+	public static final String WEBDRIVER_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.WEB_DRIVER_DIR_STR;
 	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
 	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
 	public static final Object SID_STRING = "SID";
@@ -118,8 +137,10 @@ public class CommonConst{
 	public static final String JSON_EXTENSION = "json";
 	public static final int RESULT_TOTAL = 0;
 	public static final int RESULT_EVERY = 1;
-	public static final String TOUCH_EN_PC_PATH = CommonConst.LIB_DIR+File.separator+"TouchEn-PC보안-확장_v1.0.1.15.crx";
-	
+	public static final String TOUCH_EN_CHROME_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "TouchEn-PC보안-확장_v1.0.1.15.crx";
+	public static final String BROWSER_EXT_STR = "browserExt";
+	public static final String WEB_DRIVER_DIR_STR = "webdriver";
+	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
 		}

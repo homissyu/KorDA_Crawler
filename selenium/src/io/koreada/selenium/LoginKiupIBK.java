@@ -33,7 +33,7 @@ public class LoginKiupIBK {
 	public LoginKiupIBK() {
     	
         //System Property SetUp
-        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.CHROME_DRIVER_PATH);
+        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.WEBDRIVER_PATH);
         
                 
         //Driver SetUp

@@ -20,8 +20,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -61,22 +68,77 @@ public class Crawler {
 	//WebDriver
     private WebDriver driver;
     private DesiredCapabilities capabilities = null;
-    private ChromeOptions options = null;
+    private ChromeOptions mChromeOptions = null;
+    private FirefoxOptions mFirefoxOptions = null;
+    private SafariOptions mSafariOptions = null;
+    
+    private String mWebDriverName = null;
+    private String mWebDriverID = null;
+    
+    private int iType = 0;
     
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
-    	//System Property SetUp
-        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.CHROME_DRIVER_PATH);
+    }
+    
+    private WebDriver getDriver() {
+    	iType = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_WEBDRIVER));
+    	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
+    	mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
+    	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
+    	capabilities = new DesiredCapabilities();
+    	WebDriver ret = null;
+    	
+    	switch(iType) {
+	    	case 0:
+	    		mChromeOptions = new ChromeOptions();
+	        	mChromeOptions.setCapability("ignoreProtectedModeSettings", true);
+//	            mChromeOptions.addArguments("headless");
+	        	mChromeOptions.addExtensions(new File(CommonConst.TOUCH_EN_CHROME_PATH));
+	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mChromeOptions);
+	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+	        	ret = new ChromeDriver(capabilities);
+	            break;
+	    	case 1:
+	    		mFirefoxOptions = new FirefoxOptions();
+	    		mFirefoxOptions.setCapability("ignoreProtectedModeSettings", true);
+	    		FirefoxProfile profile = new FirefoxProfile();
+	    		
+	    		FirefoxBinary firefoxBinary = new FirefoxBinary();
+	    	    firefoxBinary.addCommandLineOptions("--headless");
+	    	    mFirefoxOptions.setBinary(firefoxBinary);
+
+	    		profile.setPreference("devtools.toolbox.selectedTool", "netmonitor");
+	    		profile.setPreference("devtools.toolbox.footer.height", 0);
+	    		profile.setPreference("devtools.devedition.promo.enabled", false);
+	    		profile.setPreference("devtools.devedition.promo.shown", false);
+	    		profile.addExtension(new File(CommonConst.TOUCH_EN_FIREFOX_PATH));
+	    		mFirefoxOptions.addArguments("-devtools");
+	    		mFirefoxOptions.setProfile(profile);
+	    		
+	    		capabilities.setCapability(ChromeOptions.CAPABILITY, mFirefoxOptions);
+	    		capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+	    		ret = new FirefoxDriver(capabilities);
+	    		break;
+	    	case 2:
+	    		ret = new PhantomJSDriver();
+	    		break;
+	    	case 3:
+	    		mSafariOptions = new SafariOptions();
+	    		mSafariOptions.setCapability("ignoreProtectedModeSettings", true);
+	    		capabilities.setCapability(SafariOptions.CAPABILITY, mSafariOptions);
+	    		capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+	    		ret = new SafariDriver(capabilities);
+	    		break;
+	    	case 4:
+	    		break;
+	    	case 5:
+	    		break;
+    		default:
+    			break;
+    	}
+    	return ret;
         
-        //Driver SetUp
-        options = new ChromeOptions();
-        options.setCapability("ignoreProtectedModeSettings", true);
-//        options.addArguments("headless");
-        options.addExtensions(new File(CommonConst.TOUCH_EN_PC_PATH));
-        capabilities = new DesiredCapabilities();
-        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-        capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
-         
     }
 
     // Initial Start Method
@@ -119,11 +181,11 @@ public class Crawler {
         System.exit(0);
     }
     
-    @SuppressWarnings("deprecation")
-	private ArrayList<?> operate(){
+    private ArrayList<?> operate(){
     	ArrayList ret = null;
     	try {
-			driver = new ChromeDriver(capabilities);
+    		driver = getDriver();
+		
 			String inputLine = null;
 	        StringBuffer response = null;
 	        
@@ -173,12 +235,13 @@ public class Crawler {
 		      Alert alert = driver.switchTo().alert();
 //		      ret.add(alert.getText());
 		      alert.dismiss();
+		      Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} finally {
 			driver.close();
-			driver.quit();
+			if(iType==0)driver.quit();
 		}
 		return ret;
 	}
