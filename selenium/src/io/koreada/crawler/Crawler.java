@@ -105,7 +105,7 @@ public class Crawler {
 	    		FirefoxProfile profile = new FirefoxProfile();
 	    		
 	    		FirefoxBinary firefoxBinary = new FirefoxBinary();
-	    	    firefoxBinary.addCommandLineOptions("--headless");
+//	    	    firefoxBinary.addCommandLineOptions("--headless");
 	    	    mFirefoxOptions.setBinary(firefoxBinary);
 
 	    		profile.setPreference("devtools.toolbox.selectedTool", "netmonitor");
@@ -202,7 +202,8 @@ public class Crawler {
             passElement.click();
             passElement.sendKeys("0409");
             bizNoElement.click();
-	        bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
+            bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
+	        Thread.sleep(1000);
 	        cateElement.click();
 	        cateElement.sendKeys("1");
 	        
