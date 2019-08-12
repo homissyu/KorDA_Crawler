@@ -116,8 +116,8 @@ public class CommonConst{
     public static final String OS_NAME = "Mac OS X";
 	
 	public static final String CHROME_DRIVER = "chromedriver";
-	public static final String EDGE_DRIVER = "msedgedriver";
-	public static final String IE_DRIVER = "IEDRiverServer.exe";
+	public static final String EDGE_DRIVER = "MicrosoftWebDriver";
+	public static final String IE_DRIVER = "IEDRiverServer32";
 	public static final String PHANTOM_DRIVER = "phantomjs";
 	public static final String SAFARI_DRIVER = "safaridriver";
 	public static final String FIREFOX_DRIVER = "geckodriver";
@@ -138,7 +138,7 @@ public class CommonConst{
 	public static final String JSON_EXTENSION = "json";
 	public static final int RESULT_TOTAL = 0;
 	public static final int RESULT_EVERY = 1;
-	public static final String TOUCH_EN_CHROME_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "TouchEn-PC보안-확장_v1.0.1.15.crx";
+	public static final String TOUCH_EN_CHROME_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "TouchEn-PC_v1.0.1.15.crx";
 	public static final String BROWSER_EXT_STR = "browserExt";
 	public static final String WEB_DRIVER_DIR_STR = "webdriver";
 	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";

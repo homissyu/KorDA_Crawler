@@ -7,7 +7,7 @@ import io.koreada.util.CommonConst;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 class AccountInfo {
-	//순번, 거래일시, 출금금액, 입금금액, 잔액, 거래내용, 상대계좌번호, 상대은행, CMS코드, 거래구분, 미결제(수표/어음) 열로 이루어진 데이터입니다.
+	//�닚踰�, 嫄곕옒�씪�떆, 異쒓툑湲덉븸, �엯湲덇툑�븸, �옍�븸, 嫄곕옒�궡�슜, �긽��怨꾩쥖踰덊샇, �긽�����뻾, CMS肄붾뱶, 嫄곕옒援щ텇, 誘멸껐�젣(�닔�몴/�뼱�쓬) �뿴濡� �씠猷⑥뼱吏� �뜲�씠�꽣�엯�땲�떎.
 	private int no = 1;
 	
 	protected int getNo() {

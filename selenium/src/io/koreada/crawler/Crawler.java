@@ -20,10 +20,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerDriverService;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -34,6 +39,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.koreada.parser.IBK;
 import io.koreada.util.CommonConst;
@@ -71,6 +77,8 @@ public class Crawler {
     private ChromeOptions mChromeOptions = null;
     private FirefoxOptions mFirefoxOptions = null;
     private SafariOptions mSafariOptions = null;
+    private EdgeOptions mEdgeOptions = null;
+    private InternetExplorerOptions mIEOptions = null;
     
     private String mWebDriverName = null;
     private String mWebDriverID = null;
@@ -79,12 +87,14 @@ public class Crawler {
     
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
+    	mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
     
     private WebDriver getDriver() {
     	iType = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_WEBDRIVER));
     	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
+    	if(CommonConst.OS.startsWith("Win")) mWebDriverName += ".exe";
     	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
     	capabilities = new DesiredCapabilities();
     	WebDriver ret = null;
@@ -131,8 +141,32 @@ public class Crawler {
 	    		ret = new SafariDriver(capabilities);
 	    		break;
 	    	case 4:
-	    		break;
+	    		mEdgeOptions = new EdgeOptions();
+	    		mEdgeOptions.setCapability("ignoreProtectedModeSettings", true);
+//	            mChromeOptions.addArguments("headless");
+//	    		mEdgeOptions.addExtensions(new File(CommonConst.TOUCH_EN_CHROME_PATH));
+	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mChromeOptions);
+	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+	        	ret = new EdgeDriver(capabilities);
+	            break;
 	    	case 5:
+	    		mIEOptions = new InternetExplorerOptions();
+	    		mIEOptions.setCapability("ignoreProtectedModeSettings", true);
+	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mIEOptions);
+	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+	    		
+//	    		DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
+//	    		capabilities.setCapability(InternetExplorerDriver
+//	    		 .INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+//	    		capabilities.setCapability("requireWindowFocus", true);
+//	    		File ie_temp=new File(CommonConst.WEBDRIVER_PATH+File.separator+"IEDriver.tmp");
+//	    		InternetExplorerDriverService.Builder 
+//	    		ies=new InternetExplorerDriverService.Builder();
+//	    		ies.withExtractPath(ie_temp);
+//	    		InternetExplorerDriverService service=ies.build();
+//	    		ret = new InternetExplorerDriver(service,capabilities);
+	    		
+	    		ret = new InternetExplorerDriver(capabilities);
 	    		break;
     		default:
     			break;
@@ -166,7 +200,7 @@ public class Crawler {
             } catch (Exception e) {
             	mInstall = null;
             	mDebug = null;
-            	Debug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
+            	mDebug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
             	System.exit(1);
             }
         }
@@ -174,9 +208,9 @@ public class Crawler {
 
     // Shutdown Method, Connection disconnect, System.exit
     public void shutdown() {
-    	Debug.trace(SUBSYSTEM, 1, "Shutting down....");
+    	mDebug.trace(SUBSYSTEM, 1, "Shutting down....");
     	mShutdown = true;
-        Debug.closeErrLog();
+    	mDebug.closeErrLog();
         driver.close();
         System.exit(0);
     }
@@ -190,20 +224,21 @@ public class Crawler {
 	        StringBuffer response = null;
 	        
 	        driver.get(mUrl);
-            Thread.sleep(3000);
+            Thread.sleep(1000);
 
             WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));
             WebElement passElement = driver.findElement(By.xpath(".//*[@id='acnt_pwd']"));
             WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rnno']"));
             WebElement cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
             
+//            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
             accountElement.click();
             accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
             passElement.click();
             passElement.sendKeys("0409");
             bizNoElement.click();
             bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
-	        Thread.sleep(1000);
+//	        Thread.sleep(1000);
 	        cateElement.click();
 	        cateElement.sendKeys("1");
 	        
@@ -236,10 +271,10 @@ public class Crawler {
 		      Alert alert = driver.switchTo().alert();
 //		      ret.add(alert.getText());
 		      alert.dismiss();
-		      Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+		      mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} finally {
 			driver.close();
 			if(iType==0)driver.quit();
@@ -256,6 +291,7 @@ public class Crawler {
 			wc.start(args);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage());
 			wc.driver.close();
 			wc.driver.quit();
 		}finally {
@@ -265,8 +301,7 @@ public class Crawler {
 
 	class ScheduleExecuteTask extends TimerTask {
 		private ArrayList<?> obj = null;
-		
-    	public void run(){
+		public void run(){
 			try {	
 		    	if(!mShutdown){
 		    		obj = operate();
@@ -281,12 +316,12 @@ public class Crawler {
 				    	}
 		    		}
 		    	}else{
-		    		Debug.closeErrLog();
 		    		jg.close();
-		    		System.exit(0);
+		    		shutdown();
 		    	}
 			}catch(Exception ex) {
 				ex.printStackTrace();
+				mDebug.trace(SUBSYSTEM, 0,ex.getLocalizedMessage());
 			} 
 	    }		
 	}

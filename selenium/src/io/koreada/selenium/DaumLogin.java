@@ -1,5 +1,6 @@
 package io.koreada.selenium;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.koreada.util.CommonConst;
+import io.koreada.util.Install;
 
 public class DaumLogin {
 	public static void main(String[] args) {
@@ -24,13 +26,17 @@ public class DaumLogin {
     
     private WebElement webElement;
     
-    //크롤링 할 URL
+    //�겕濡ㅻ쭅 �븷 URL
     private String base_url;
     
     public DaumLogin() {
-    	
+    	int iType = 0;
+    	String mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
+    	String mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
+    	if(CommonConst.OS.startsWith("Win")) mWebDriverName += ".exe";
+    	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
         //System Property SetUp
-        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.WEBDRIVER_PATH);
+//        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.WEBDRIVER_PATH);
         
                 
         //Driver SetUp
@@ -48,7 +54,7 @@ public class DaumLogin {
     public void crawl() {
  
         try {
-            //get page (= 브라우저에서 url을 주소창에 넣은 후 request 한 것과 같다)
+            //get page (= 釉뚮씪�슦���뿉�꽌 url�쓣 二쇱냼李쎌뿉 �꽔�� �썑 request �븳 寃껉낵 媛숇떎)
             driver.get(base_url);
  
             webElement = driver.findElement(By.className("link_login"));
@@ -95,7 +101,7 @@ public class DaumLogin {
         
         } finally {
  
-            driver.close();
+//            driver.close();
         }
  
     }
