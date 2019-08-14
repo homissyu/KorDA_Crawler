@@ -3,7 +3,18 @@ package io.koreada.util;
 import java.io.File;
 
 public class CommonConst{
-	public static final String OS = System.getProperty("os.name");
+	public static final String getOSName() {
+		String ret = null;
+		if(System.getProperty("os.name").startsWith("Mac")) {
+			ret = "Mac";
+		}else if(System.getProperty("os.name").startsWith("Linux")) {
+			ret = "Linux";
+		}else if(System.getProperty("os.name").startsWith("Windows")) {
+			ret = "Windows";
+		}
+		return ret;
+	}
+	                                     
 	public static final String CRWALER = "Crawler";
     public static final String CURRENT_DIR = ".";
     public static final String COMMA = ",";
@@ -16,7 +27,6 @@ public class CommonConst{
     public static final String DEBUG_KIND_SIZE = "SIZE";
     public static final String DEBUG_KIND_DATE = "DATE";
     public static final long Max_DEBUG_FILE_LENGTH = 1024*1024*1024;
-    
     
     
     public static final String T_DES = "TrippleDES";
@@ -113,8 +123,7 @@ public class CommonConst{
 	//0:Chrome, 1:Firefox, 2:PhantomJS, 3:Safari, 4:Edge, 5:IE
     public static final String [] WEBDRIVER_STR_ARR = {CommonConst.CHROME_DRIVER,CommonConst.FIREFOX_DRIVER,CommonConst.PHANTOM_DRIVER,CommonConst.SAFARI_DRIVER,CommonConst.EDGE_DRIVER,CommonConst.IE_DRIVER};
     public static final String [] WEBDRIVER_ID_ARR = {CommonConst.CHROME_DRIVER_ID,CommonConst.FIREFOX_DRIVER_ID,CommonConst.PHANTOM_DRIVER_ID,CommonConst.SAFARI_DRIVER_ID,CommonConst.EDGE_DRIVER_ID,CommonConst.IE_DRIVER_ID};
-    public static final String OS_NAME = "Mac OS X";
-	
+    
 	public static final String CHROME_DRIVER = "chromedriver";
 	public static final String EDGE_DRIVER = "MicrosoftWebDriver";
 	public static final String IE_DRIVER = "IEDRiverServer32";
@@ -130,7 +139,7 @@ public class CommonConst{
 	public static final String FIREFOX_DRIVER_ID = "webdriver.gecko.driver";
 	
 	
-	public static final String WEBDRIVER_PATH = CommonConst.LIB_DIR + File.separator + CommonConst.WEB_DRIVER_DIR_STR + File.separator + CommonConst.OS;
+	public static final String WEBDRIVER_PATH = CommonConst.CURRENT_DIR + File.separator + CommonConst.LIB_DIR + File.separator + CommonConst.WEB_DRIVER_DIR_STR + File.separator + CommonConst.getOSName();
 	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
 	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
 	public static final Object SID_STRING = "SID";

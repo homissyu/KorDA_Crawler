@@ -5,6 +5,7 @@ package io.koreada.crawler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -88,13 +88,14 @@ public class Crawler {
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
     	mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    }
+    	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + aFileName)));
+	}
     
     private WebDriver getDriver() {
     	iType = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_WEBDRIVER));
     	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
-    	if(CommonConst.OS.startsWith("Win")) mWebDriverName += ".exe";
+    	if(CommonConst.getOSName().equalsIgnoreCase("Windows")) mWebDriverName += ".exe";
     	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
     	capabilities = new DesiredCapabilities();
     	WebDriver ret = null;
@@ -268,16 +269,16 @@ public class Crawler {
 	        mOldHashCode = mNewHashCode;
 			
 		} catch (UnhandledAlertException e) {
-		      Alert alert = driver.switchTo().alert();
+		    Alert alert = driver.switchTo().alert();
 //		      ret.add(alert.getText());
-		      alert.dismiss();
-		      mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+		    alert.dismiss();
+		    mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} finally {
 			driver.close();
-			if(iType==0)driver.quit();
+			if(iType==0 || driver != null)driver.quit();
 		}
 		return ret;
 	}
@@ -309,7 +310,7 @@ public class Crawler {
 		    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
 		    				|| !obj.contains("No Change")) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
-				    		mapper.writeValue(jg, obj);
+		    				mapper.writeValue(jg, obj);
 				    		jg.writeRaw(System.lineSeparator());
 				    	}else {
 				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aFileName), obj);

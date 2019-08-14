@@ -33,7 +33,7 @@ public class DaumLogin {
     	int iType = 0;
     	String mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	String mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
-    	if(CommonConst.OS.startsWith("Win")) mWebDriverName += ".exe";
+    	if(CommonConst.getOSName().equalsIgnoreCase("Windows")) mWebDriverName += ".exe";
     	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
         //System Property SetUp
 //        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.WEBDRIVER_PATH);

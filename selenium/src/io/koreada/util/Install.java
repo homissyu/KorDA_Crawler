@@ -48,10 +48,10 @@ public class Install {
     public static final String MAX_LOGFILE_SIZE_DEFAULT = "4096"; // 4MB (4096K)
     
     public static final String RESULT_TYPE = "RESULT.TYPE"; // 
-    public static final String RESULT_TYPE_DEFAULT = "ALLWAYS"; // 0=TOTAL, 1=EVERY
+    public static final String RESULT_TYPE_DEFAULT = "ALLWAYS"; // ALLWAYS OR CHANGE
     
     public static final String RESULT_LOG_TYPE = "RESULT.LOG_TYPE";
-    public static final String RESULT_LOG_TYPE_DEFAULT = "TOTAL";
+    public static final String RESULT_LOG_TYPE_DEFAULT = "TOTAL"; // TOTAL OR EVERY
     
     // Database variables
 //    public static final String DB_TYPE = "DB.TYPE";
