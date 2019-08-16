@@ -145,7 +145,7 @@ public class CrawlerForKeyboardSecurity {
     public void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
     	
-    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_IP);
+    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_SEL_IP);
     	mUrl = URLDecoder.decode(mUrl);
     	
     	mParam = mInstall.getProperty(Install.SMART_BRIDGE_PARAM);

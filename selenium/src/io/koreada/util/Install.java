@@ -33,7 +33,7 @@ public class Install {
     // CONSTANTS
     // System Configuration
     public static final String INSTALL_DIR = "INSTALL_DIR";
-    public static final String INSTALL_DIR_DEFAULT = ".";
+    public static final String INSTALL_DIR_DEFAULT = "./selenium";
     public static final String CONFIG_FILE = "CONFIG_FILE";
     public static final String CONFIG_FILE_DEFAULT = "NWebChecker.conf";
 
@@ -68,8 +68,10 @@ public class Install {
 //    public static final String DB_PASSWORD_DEFAULT = "";
 
     //  SMART BRIDGE
-    public static final String SMART_BRIDGE_IP = "SB.IP";
-    public static final String SMART_BRIDGE_IP_DEFAULT = "LOCALHOST";
+    public static final String SMART_BRIDGE_SEL_IP = "SB.SEL_IP";
+    public static final String SMART_BRIDGE_SEL_IP_DEFAULT = "LOCALHOST";
+    public static final String SMART_BRIDGE_POJO_IP = "SB.POJO_IP";
+    public static final String SMART_BRIDGE_POJO_IP_DEFAULT = "LOCALHOST";
     public static final String SMART_BRIDGE_PARAM = "SB.PARAM";
     public static final String SMART_BRIDGE_PARAM_DEFAULT = "";
     public static final String SMART_BRIDGE_COOKIE = "SB.COOKIE";
@@ -109,7 +111,8 @@ public class Install {
         MAX_LOGFILE_SIZE, MAX_LOGFILE_SIZE_DEFAULT,
 
         // SMART BRIDGE
-        SMART_BRIDGE_IP, SMART_BRIDGE_IP_DEFAULT,
+        SMART_BRIDGE_SEL_IP, SMART_BRIDGE_SEL_IP_DEFAULT,
+        SMART_BRIDGE_POJO_IP, SMART_BRIDGE_POJO_IP_DEFAULT,
         SMART_BRIDGE_PARAM, SMART_BRIDGE_PARAM_DEFAULT,
         SMART_BRIDGE_COOKIE, SMART_BRIDGE_COOKIE_DEFAULT,
         SMART_BRIDGE_ACC_NO, SMART_BRIDGE_ACC_NO_DEFAULT,

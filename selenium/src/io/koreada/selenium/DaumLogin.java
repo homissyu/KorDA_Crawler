@@ -11,7 +11,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.koreada.util.CommonConst;
-import io.koreada.util.Install;
 
 public class DaumLogin {
 	public static void main(String[] args) {
@@ -34,7 +33,8 @@ public class DaumLogin {
     	String mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	String mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
     	if(CommonConst.getOSName().equalsIgnoreCase("Windows")) mWebDriverName += ".exe";
-    	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
+    	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH + File.separator + mWebDriverName);
+    	System.out.println(CommonConst.WEBDRIVER_PATH + File.separator + mWebDriverName);
         //System Property SetUp
 //        System.setProperty(CommonConst.CHROME_DRIVER_ID, CommonConst.WEBDRIVER_PATH);
         

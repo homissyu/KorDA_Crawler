@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.koreada.parser.IBK;
+import io.koreada.supportfactory.WebdriverFactory;
 import io.koreada.util.CommonConst;
 import io.koreada.util.CommonUtil;
 import io.koreada.util.Debug;
@@ -88,7 +89,7 @@ public class Crawler {
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
     	mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + aFileName)));
+    	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(mInstall.getLogDir() + File.separator + aFileName)));
 	}
     
     private WebDriver getDriver() {
@@ -96,7 +97,7 @@ public class Crawler {
     	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
     	if(CommonConst.getOSName().equalsIgnoreCase("Windows")) mWebDriverName += ".exe";
-    	System.setProperty(mWebDriverID, CommonConst.WEBDRIVER_PATH+File.separator+mWebDriverName);
+    	System.setProperty(mWebDriverID, mInstall.getLibDir() + File.separator + CommonConst.WEBDRIVER_PATH + File.separator + mWebDriverName);
     	capabilities = new DesiredCapabilities();
     	WebDriver ret = null;
     	
@@ -105,11 +106,11 @@ public class Crawler {
 	    		mChromeOptions = new ChromeOptions();
 	        	mChromeOptions.setCapability("ignoreProtectedModeSettings", true);
 //	            mChromeOptions.addArguments("headless");
-	        	mChromeOptions.addExtensions(new File(CommonConst.TOUCH_EN_CHROME_PATH));
+	        	mChromeOptions.addExtensions(new File(mInstall.getLibDir() + File.separator + CommonConst.TOUCH_EN_CHROME_PATH));
 	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mChromeOptions);
 	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 	        	ret = new ChromeDriver(capabilities);
-	            break;
+	        	break;
 	    	case 1:
 	    		mFirefoxOptions = new FirefoxOptions();
 	    		mFirefoxOptions.setCapability("ignoreProtectedModeSettings", true);
@@ -123,7 +124,7 @@ public class Crawler {
 	    		profile.setPreference("devtools.toolbox.footer.height", 0);
 	    		profile.setPreference("devtools.devedition.promo.enabled", false);
 	    		profile.setPreference("devtools.devedition.promo.shown", false);
-	    		profile.addExtension(new File(CommonConst.TOUCH_EN_FIREFOX_PATH));
+	    		profile.addExtension(new File(mInstall.getLibDir() + File.separator + CommonConst.TOUCH_EN_FIREFOX_PATH));
 	    		mFirefoxOptions.addArguments("-devtools");
 	    		mFirefoxOptions.setProfile(profile);
 	    		
@@ -180,7 +181,7 @@ public class Crawler {
     public void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
     	
-    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_IP);
+    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_SEL_IP);
     	mUrl = URLDecoder.decode(mUrl);
     	
     	mParam = mInstall.getProperty(Install.SMART_BRIDGE_PARAM);
@@ -232,7 +233,7 @@ public class Crawler {
             WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rnno']"));
             WebElement cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
             
-//            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
+//          new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
             accountElement.click();
             accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
             passElement.click();
@@ -274,11 +275,11 @@ public class Crawler {
 		    alert.dismiss();
 		    mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
-			e.printStackTrace();
 			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			e.printStackTrace();
 		} finally {
 			driver.close();
-			if(iType==0 || driver != null)driver.quit();
+			if(iType==0)driver.quit();
 		}
 		return ret;
 	}

@@ -58,7 +58,7 @@ public class CrawlerByPojo {
     	jg = mapper.getFactory().createGenerator(
     			new FileOutputStream(
     					new File(
-    							CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + aFileName)
+    							mInstall.getLogDir() + File.separator + aFileName)
     					)
     			);
     }
@@ -68,7 +68,7 @@ public class CrawlerByPojo {
 	public void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
     	
-    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_IP);
+    	mUrl = mInstall.getProperty(Install.SMART_BRIDGE_POJO_IP);
     	mUrl = URLDecoder.decode(mUrl);
 //    	mUrl = "https://mybank.ibk.co.kr/uib/jsp/guest/qcs/qcs10/qcs1010/PQCS101000_i4.jsp";
     	
@@ -89,8 +89,7 @@ public class CrawlerByPojo {
                 mDebug = new Debug(mInstall);
             } catch (Exception e) {
             	mInstall = null;
-            	mDebug = null;
-            	Debug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
+            	mDebug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
                 System.exit(1);
             }
         }
@@ -98,7 +97,7 @@ public class CrawlerByPojo {
 
     // Shutdown Method, Connection disconnect, System.exit
     public void shutdown() {
-    	Debug.trace(SUBSYSTEM, 1, "Shutting down....");
+    	mDebug.trace(SUBSYSTEM, 1, "Shutting down....");
     	mShutdown = true;
         Debug.closeErrLog();
         System.exit(0);
@@ -162,11 +161,12 @@ public class CrawlerByPojo {
 		        
 
 		        
-			}else Debug.trace(SUBSYSTEM, 0, "ResponseCode:"+mHttpsConn.getResponseCode());
+			}else mDebug.trace(SUBSYSTEM, 0, "ResponseCode:"+mHttpsConn.getResponseCode());
 			
 		} catch (Exception e) {
+			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
 			e.printStackTrace();
-			Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			
 		} finally {
 		}
 		return ret;
@@ -191,7 +191,7 @@ public class CrawlerByPojo {
 			try {	
 		    	if(!mShutdown){
 		    		obj = operate();
-		    		System.out.println(obj);
+//		    		System.out.println(obj);
 		    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
 		    				|| !obj.contains("No Change")) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
@@ -202,11 +202,12 @@ public class CrawlerByPojo {
 				    	}
 		    		}
 		    	}else{
-		    		Debug.closeErrLog();
+		    		mDebug.closeErrLog();
 		    		jg.close();
 		    		System.exit(0);
 		    	}
 			}catch(Exception ex) {
+				mDebug.trace(SUBSYSTEM, 0, ex.getStackTrace().toString());
 				ex.printStackTrace();
 			} 
 	    }		

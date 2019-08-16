@@ -139,7 +139,7 @@ public class CommonConst{
 	public static final String FIREFOX_DRIVER_ID = "webdriver.gecko.driver";
 	
 	
-	public static final String WEBDRIVER_PATH = CommonConst.CURRENT_DIR + File.separator + CommonConst.LIB_DIR + File.separator + CommonConst.WEB_DRIVER_DIR_STR + File.separator + CommonConst.getOSName();
+	public static final String WEBDRIVER_PATH = CommonConst.WEB_DRIVER_DIR_STR + File.separator + CommonConst.getOSName();
 	public static final String EDGE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\MicrosoftWebDriver.exe";
 	public static final String IE_DRIVER_PATH = "E:\\sts_workspace\\selenium\\lib\\IEDriverServer.exe";
 	public static final Object SID_STRING = "SID";
@@ -147,10 +147,10 @@ public class CommonConst{
 	public static final String JSON_EXTENSION = "json";
 	public static final int RESULT_TOTAL = 0;
 	public static final int RESULT_EVERY = 1;
-	public static final String TOUCH_EN_CHROME_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "TouchEn-PC_v1.0.1.15.crx";
+	public static final String TOUCH_EN_CHROME_PATH = CommonConst.BROWSER_EXT_STR + File.separator + "TouchEn-PC_v1.0.1.15.crx";
 	public static final String BROWSER_EXT_STR = "browserExt";
 	public static final String WEB_DRIVER_DIR_STR = "webdriver";
-	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.LIB_DIR+File.separator+CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";
+	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
 		}
