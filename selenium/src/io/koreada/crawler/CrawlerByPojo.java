@@ -202,8 +202,8 @@ public class CrawlerByPojo {
 				    	}
 		    		}
 		    	}else{
-		    		mDebug.closeErrLog();
 		    		jg.close();
+		    		mDebug.closeErrLog();
 		    		System.exit(0);
 		    	}
 			}catch(Exception ex) {

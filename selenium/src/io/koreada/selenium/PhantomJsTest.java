@@ -12,7 +12,7 @@ public class PhantomJsTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PhantomJsTest pjt = new PhantomJsTest();
+//		PhantomJsTest pjt = new PhantomJsTest();
 		Install mInstall = null;
 		if (mInstall == null) {
             try {
