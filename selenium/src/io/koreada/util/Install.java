@@ -33,7 +33,7 @@ public class Install {
     // CONSTANTS
     // System Configuration
     public static final String INSTALL_DIR = "INSTALL_DIR";
-    public static final String INSTALL_DIR_DEFAULT = "./selenium";
+    public static final String INSTALL_DIR_DEFAULT = ".";
     public static final String CONFIG_FILE = "CONFIG_FILE";
     public static final String CONFIG_FILE_DEFAULT = "NWebChecker.conf";
 
