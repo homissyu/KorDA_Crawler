@@ -3,6 +3,8 @@
  */
 package io.koreada.crawler;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,9 +28,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -190,36 +194,28 @@ public class CrawlerForKeyboardSecurity {
     	try {
     		String inputLine = null;
 	       StringBuffer response = null;
-	        
-	        driver.get(mUrl);
-            Thread.sleep(5000);
+	       
+	       driver.get(mUrl);
+	       Thread.sleep(5000);
+	       JavascriptExecutor jse = (JavascriptExecutor)driver;
+	       
+	       WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));
+	       WebElement passElement = driver.findElement(By.xpath(".//*[@id='acnt_pwd']"));
+	       WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rnno']"));
+	       WebElement cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
             
-            
-            WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));
-            WebElement passElement = driver.findElement(By.xpath(".//*[@id='acnt_pwd']"));
-            WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rnno']"));
-            WebElement cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
-            
-            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
-            accountElement.click();
-            accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
-            
-            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passElement));
-            passElement.click();
-            
-            JavascriptExecutor jse = (JavascriptExecutor)driver;
-            
-            WebElement passMap = driver.findElement(By.xpath(".//*[@id='acnt_pwd_layoutSingle']"));
-            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passMap));
-            //if(passMap.isDisplayed() || passMap.isEnabled()) {
-//            	jse.executeScript("tk.start(event,0)");
-//            	jse.executeScript("tk.start(event,4)");
-//            	jse.executeScript("tk.start(event,0)");
-//            	jse.executeScript("tk.start(event,9)");
-//            	jse.executeScript("tk.start(event,-1,true)");
-            	
-            	Actions builder = new Actions(driver);
+	       new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
+	       accountElement.click();
+	       accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
 
+	       new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passElement));
+	       passElement.click();
+            
+          WebElement passMap = driver.findElement(By.xpath(".//*[@id='acnt_pwd_layoutSingle']"));
+          new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passMap));
+            	
+          Actions builder = new Actions(driver);
+//            	System.out.println(passElement.getLocation().getX());
             	int [] p0 = {passElement.getLocation().getX()+190, passElement.getLocation().getY()+70};//0
             	int [] p1 = {-40, 120};//4
             	int [] p2 = {40, -120};//0
@@ -236,46 +232,47 @@ public class CrawlerForKeyboardSecurity {
             	Thread.sleep(100);
             	builder.moveByOffset(p4[0], p4[1]).click().build().perform();
             	
-            //}
-//            passElement.sendKeys("0409");
-            	
             	Thread.sleep(1000);
-            	bizNoElement.click();
-//            	jse.executeScript("tk.start(event,8)");
-//            	jse.executeScript("tk.start(event,1)");
-//            	jse.executeScript("tk.start(event,0)");
-//            	jse.executeScript("tk.start(event,1)");
-//            	jse.executeScript("tk.start(event,4)");
-//            	jse.executeScript("tk.start(event,6)");
-//            	jse.executeScript("tk.start(event,0)");
             	
-            	int [] p5 = {bizNoElement.getLocation().getX()+65, bizNoElement.getLocation().getY()+70};//8
-            	int [] p6 = {125, 0};//1
-            	int [] p7 = {-45, 0};//0
-            	int [] p8 = {0, -195};//4
-            	int [] p9 = {-85, 0};//6
-            	int [] p10 = {85, -120};//0
-            	int [] p11 = {85, 0};//End
+            	new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(bizNoElement));
+              bizNoElement.click();
 
-            	builder.moveByOffset(p5[0], p5[1]).click().build().perform();
+              passMap = driver.findElement(By.xpath(".//*[@id='rnno_layoutSingle']"));
+              new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passMap));
+              
+              Actions builder2 = new Actions(driver);
+              	
+//            	int [] p5 = {bizNoElement.getLocation().getX()+65, bizNoElement.getLocation().getY()+70};//8
+            	int [] p5 = {25, 100};//8
+            	int [] p6 = {125, 0};//1
+            	int [] p7 = {-40, -40};//0
+            	int [] p8 = {40, 40};//1
+            	int [] p9 = {-40, 80};//4
+            	int [] p10 = {-80, 0};//6
+            	int [] p11 = {80, -120};//0
+            	int [] p12 = {80, 20};//End
+
+            	builder2.moveToElement(bizNoElement);
+            	builder2.moveByOffset(p5[0], p5[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p6[0], p6[1]).click().build().perform();
+            	builder2.moveByOffset(p6[0], p6[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p7[0], p7[1]).click().build().perform();
+            	builder2.moveByOffset(p7[0], p7[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p8[0], p8[1]).click().build().perform();
+            	builder2.moveByOffset(p8[0], p8[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p9[0], p9[1]).click().build().perform();
+            	builder2.moveByOffset(p9[0], p9[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p10[0], p10[1]).click().build().perform();
+            	builder2.moveByOffset(p10[0], p10[1]).click().build().perform();
             	Thread.sleep(100);
-            	builder.moveByOffset(p11[0], p11[1]).click().build().perform();
-            	
-            	Thread.sleep(1000);
-            	
+            	builder2.moveByOffset(p11[0], p11[1]).click().build().perform();
+            	Thread.sleep(100);
+//            	builder2.moveByOffset(p12[0], p12[1]).click().build().perform();
+//            	Thread.sleep(100000);
 //	        bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
-	        cateElement.click();
-	        cateElement.sendKeys("1");
+            	new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(cateElement));
+            	cateElement.click();
+            	cateElement.sendKeys("1");
 	        
 	        jse.executeScript("setCount2(30)");
 
