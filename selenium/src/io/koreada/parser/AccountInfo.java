@@ -18,15 +18,16 @@ class AccountInfo {
 	}
 
 	private String regData = null;
-	private double withdraw = 0;
+//	private double withdraw = 0;
 	private double deposit = 0;
-	private double balance = 0;
+//	private double balance = 0;
 	private String contents = null;
 	private String srcAccNo = null;
 	private String srcBank = null;
 	private String CMSCode = null;
 	private String trType = null;
 	private double nonPay = 0;
+	private int hashCode = 0;
 	
 	protected String getRegData() {
 		return regData;
@@ -34,24 +35,24 @@ class AccountInfo {
 	protected void setRegData(String regData) {
 		this.regData = regData;
 	}
-	protected double getWithdraw() {
-		return withdraw;
-	}
-	protected void setWithdraw(String withdraw) {
-		this.withdraw = Double.parseDouble(withdraw);
-	}
+//	protected double getWithdraw() {
+//		return withdraw;
+//	}
+//	protected void setWithdraw(String withdraw) {
+//		this.withdraw = Double.parseDouble(withdraw);
+//	}
 	protected double getDeposit() {
 		return deposit;
 	}
 	protected void setDeposit(String deposit) {
 		this.deposit = Double.parseDouble(deposit);
 	}
-	protected double getBalance() {
-		return balance;
-	}
-	protected void setBalance(String balance) {
-		this.balance = Double.parseDouble(balance);
-	}
+//	protected double getBalance() {
+//		return balance;
+//	}
+//	protected void setBalance(String balance) {
+//		this.balance = Double.parseDouble(balance);
+//	}
 	protected String getContents() {
 		return contents;
 	}
@@ -92,13 +93,49 @@ class AccountInfo {
 	public String toString(){
 		StringBuffer ret = new StringBuffer();
 		ret.append("(");
-		ret.append("RegDate="+this.getRegData());
+		ret.append("No="+this.getNo());
 		ret.append(CommonConst.COMMA);
-		ret.append("Withdraw="+this.getWithdraw());
+		ret.append("RegDate="+this.getRegData());
+//		ret.append(CommonConst.COMMA);
+//		ret.append("Withdraw="+this.getWithdraw());
 		ret.append(CommonConst.COMMA);
 		ret.append("Deposit="+this.getDeposit());
+//		ret.append(CommonConst.COMMA);
+//		ret.append("Balance"+this.getBalance());
 		ret.append(CommonConst.COMMA);
-		ret.append("Balance"+this.getBalance());
+		ret.append("Contents="+this.getContents());
+		ret.append(CommonConst.COMMA);
+		ret.append("SrcAccountNo="+this.getSrcAccNo());
+		ret.append(CommonConst.COMMA);
+		ret.append("SrcBank="+this.getSrcBank());
+		ret.append(CommonConst.COMMA);
+		ret.append("CMSCode"+this.getCMSCode());
+		ret.append(CommonConst.COMMA);
+		ret.append("TrType"+this.getTrType());
+		ret.append(CommonConst.COMMA);
+		ret.append("NonPay="+this.getNonPay());
+		ret.append(CommonConst.COMMA);
+		ret.append("HashCode="+this.getHashCode());
+		ret.append(")");
+		return ret.toString();
+	}
+	
+	protected int getHashCode() {
+		return this.hashCode;
+	}
+	
+	protected void setHashCode() {
+		StringBuffer ret = new StringBuffer();
+		ret.append("(");
+		ret.append("No="+this.getNo());
+		ret.append(CommonConst.COMMA);
+		ret.append("RegDate="+this.getRegData());
+//		ret.append(CommonConst.COMMA);
+//		ret.append("Withdraw="+this.getWithdraw());
+		ret.append(CommonConst.COMMA);
+		ret.append("Deposit="+this.getDeposit());
+//		ret.append(CommonConst.COMMA);
+//		ret.append("Balance"+this.getBalance());
 		ret.append(CommonConst.COMMA);
 		ret.append("Contents="+this.getContents());
 		ret.append(CommonConst.COMMA);
@@ -112,6 +149,6 @@ class AccountInfo {
 		ret.append(CommonConst.COMMA);
 		ret.append("NonPay="+this.getNonPay());
 		ret.append(")");
-		return ret.toString();
+		this.hashCode = ret.toString().hashCode();
 	}
 }

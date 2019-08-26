@@ -46,8 +46,8 @@ public class CrawlerByPojo {
 	private HttpsURLConnection mHttpsConn = null;
 	
 	private IBK ibkParser = new IBK();
-	private int mOldHashCode = 0;
-	private int mNewHashCode = 0;
+	private ArrayList mOldHashCodeList = null;
+	private ArrayList mNewHashCodeList = null;
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	private String aFileName = CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + CommonConst.JSON_EXTENSION;
@@ -151,13 +151,15 @@ public class CrawlerByPojo {
 		        }
 		        in.close();
 
-		        ret = ibkParser.parse(response.toString());
-		        mNewHashCode = ibkParser.getHashCode();
-		        if(mOldHashCode == mNewHashCode) {
+//		        ret = ibkParser.parse(response.toString());
+		        mNewHashCodeList = ibkParser.getHashCode();
+		        System.out.println("mNewHashCode:"+mNewHashCodeList);
+		        if(mOldHashCodeList.containsAll(mNewHashCodeList)) {
 		        	ret.removeAll(ret);
 		        	ret.add("No Change");
 		        }
-		        mOldHashCode = mNewHashCode;
+		        System.out.println("mOldHashCode:"+mOldHashCodeList);
+		        mOldHashCodeList.addAll(mNewHashCodeList);
 		        
 
 		        
