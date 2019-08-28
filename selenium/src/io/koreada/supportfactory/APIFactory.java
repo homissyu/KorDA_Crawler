@@ -40,7 +40,7 @@ public class APIFactory {
 			mHttpConn.setDoOutput(true);
 			mHttpConn.setUseCaches(false);
 			mHttpConn.setDefaultUseCaches(false);
-		
+		System.out.println(mHttpConn.getContentLength());
 			dos = new DataOutputStream(mHttpConn.getOutputStream());
 			dos.write(aParam.getBytes("UTF-8"));
 			dos.flush();

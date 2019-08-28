@@ -1,15 +1,16 @@
 package io.koreada.parser;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class IBK {
-	private ArrayList<Integer> mHashcodeList = new ArrayList<Integer>();
+	private ArrayList<String> mHashcodeList = new ArrayList<String>();
 	
-	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException {
+	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException, NoSuchAlgorithmException {
 		ArrayList<AccountInfo> rows = new ArrayList<AccountInfo>();
 		String[] arr = aVal.split("\\p{C}");
 		AccountInfo accountInfo = null;
@@ -36,7 +37,7 @@ public class IBK {
 		return rows;
 	}
 	
-	public ArrayList<Integer> getHashCodeList() {
+	public ArrayList<String> getHashCodeList() {
 		return mHashcodeList;
 	}
 }

@@ -1,13 +1,16 @@
 package io.koreada.parser;
 
+import java.security.NoSuchAlgorithmException;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import io.koreada.util.CommonConst;
+import io.koreada.util.CryptoUtils;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 class AccountInfo {
-	//�닚踰�, 嫄곕옒�씪�떆, 異쒓툑湲덉븸, �엯湲덇툑�븸, �옍�븸, 嫄곕옒�궡�슜, �긽��怨꾩쥖踰덊샇, �긽�����뻾, CMS肄붾뱶, 嫄곕옒援щ텇, 誘멸껐�젣(�닔�몴/�뼱�쓬) �뿴濡� �씠猷⑥뼱吏� �뜲�씠�꽣�엯�땲�떎.
+	//占쎈떄甕곤옙, 椰꾧퀡�삋占쎌뵬占쎈뻻, �빊�뮄�닊疫뀀뜆釉�, 占쎌뿯疫뀀뜃�닊占쎈만, 占쎌삆占쎈만, 椰꾧퀡�삋占쎄땀占쎌뒠, 占쎄맒占쏙옙�④쑴伊뽬린�뜇�깈, 占쎄맒占쏙옙占쏙옙占쎈뻬, CMS�굜遺얜굡, 椰꾧퀡�삋�뤃�됲뀋, 沃섎㈇猿먲옙�젫(占쎈땾占쎈ご/占쎈선占쎌벉) 占쎈였嚥∽옙 占쎌뵠�뙴�뫁堉깍쭪占� 占쎈쑓占쎌뵠占쎄숲占쎌뿯占쎈빍占쎈뼄.
 	private int no = 1;
 	
 	protected int getNo() {
@@ -27,7 +30,7 @@ class AccountInfo {
 	private String CMSCode = null;
 	private String trType = null;
 	private double nonPay = 0;
-	private int hashCode = 0;
+	private String hashCode = null;
 	
 	protected String getRegData() {
 		return regData;
@@ -120,11 +123,11 @@ class AccountInfo {
 		return ret.toString();
 	}
 	
-	protected int getHashCode() {
+	protected String getHashCode() {
 		return this.hashCode;
 	}
 	
-	protected void setHashCode() {
+	protected void setHashCode() throws NoSuchAlgorithmException {
 		StringBuffer ret = new StringBuffer();
 		ret.append("(");
 		ret.append("No="+this.getNo());
@@ -149,6 +152,6 @@ class AccountInfo {
 		ret.append(CommonConst.COMMA);
 		ret.append("NonPay="+this.getNonPay());
 		ret.append(")");
-		this.hashCode = ret.toString().hashCode();
+		this.hashCode = CryptoUtils.generateSHA256(ret.toString());
 	}
 }
