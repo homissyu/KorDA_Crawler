@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -99,13 +99,11 @@ public class Crawler {
 			e.printStackTrace();
 			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage());
 			wc.mExecuter.closeDriver();
-		}finally {
-//			wc.driver.close();
 		}
     }
 
 	class ScheduleExecuteTask extends TimerTask {
-		private HashMap<?,?> obj = null;
+		private ArrayList<?> obj = null;
 		public void run(){
 			try {	
 		    	if(!mShutdown){

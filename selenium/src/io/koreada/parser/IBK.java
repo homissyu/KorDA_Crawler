@@ -2,7 +2,6 @@ package io.koreada.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -10,10 +9,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class IBK {
 	private ArrayList<Integer> mHashcodeList = new ArrayList<Integer>();
 	
-	public HashMap<Integer, AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException {
-		HashMap<Integer, AccountInfo> rows = new HashMap<Integer, AccountInfo>();
+	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException {
+		ArrayList<AccountInfo> rows = new ArrayList<AccountInfo>();
 		String[] arr = aVal.split("\\p{C}");
 		AccountInfo accountInfo = null;
+		mHashcodeList.clear();
 		for(int i=0;i<arr.length;i++) {
 			if(i%10==0) { 
 				accountInfo = new AccountInfo();
@@ -29,13 +29,14 @@ public class IBK {
 				accountInfo.setTrType(arr[i+8]);
 				accountInfo.setNonPay(arr[i+9]);
 				accountInfo.setHashCode();
-				rows.put(accountInfo.getHashCode(), accountInfo);
+				rows.add(accountInfo);
+				mHashcodeList.add(accountInfo.getHashCode());
 			}
 		}
 		return rows;
 	}
 	
-	public ArrayList<Integer> getHashCode() {
+	public ArrayList<Integer> getHashCodeList() {
 		return mHashcodeList;
 	}
 }

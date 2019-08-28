@@ -291,7 +291,7 @@ public class CrawlerForKeyboardSecurity {
         	}else if(inputLine.contains("\"result\":\"error\"")) throw new Exception("Exception Occured! : "+inputLine);
 
 //	        ret = ibkParser.parse(response.toString());
-	        mNewHashCodeList = ibkParser.getHashCode();
+	        mNewHashCodeList = ibkParser.getHashCodeList();
 	        System.out.println("mNewHashCode:"+mNewHashCodeList);
 	        if(mOldHashCodeList.containsAll(mNewHashCodeList)) {
 	        	ret.removeAll(ret);
