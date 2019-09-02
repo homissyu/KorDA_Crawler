@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-public class IBK {
+public class NH {
 	private ArrayList<Integer> mHashcodeList = new ArrayList<Integer>();
 	
 	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException {

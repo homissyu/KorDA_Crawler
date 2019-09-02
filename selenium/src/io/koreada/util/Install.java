@@ -84,6 +84,8 @@ public class Install {
     public static final String SMART_BRIDGE_WEBDRIVER_DEFAULT = "0";
     public static final String SMART_BRIDGE_API = "SB.API";
     public static final String SMART_BRIDGE_API_DEFAULT = "0";
+    public static final String SMART_BRIDGE_BANK = "SB.BANK";
+    public static final String SMART_BRIDGE_BANK_DEFAULT = "0";
     
     // Daemon
     public static final String DAEMON_INTERVAL = "DAEMON.INTERVAL";
@@ -121,6 +123,7 @@ public class Install {
         SMART_BRIDGE_BIZ_NO, SMART_BRIDGE_BIZ_NO_DEFAULT,
         SMART_BRIDGE_WEBDRIVER, SMART_BRIDGE_WEBDRIVER_DEFAULT,
         SMART_BRIDGE_API, SMART_BRIDGE_API_DEFAULT,
+        SMART_BRIDGE_BANK, SMART_BRIDGE_BANK_DEFAULT,
         
         RESULT_TYPE, RESULT_TYPE_DEFAULT,
         RESULT_LOG_TYPE, RESULT_LOG_TYPE_DEFAULT
@@ -646,6 +649,7 @@ public class Install {
     public static final char RPAREN_CHAR = ')';
     public static final char LBRACE_CHAR = '[';
     public static final char RBRACE_CHAR = ']';
+	
 
 
     //--------------------------------------------------

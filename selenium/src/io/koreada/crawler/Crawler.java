@@ -15,6 +15,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import io.koreada.executer.Executer;
+import io.koreada.executer.ExecuterIBK;
+import io.koreada.executer.ExecuterNH;
 import io.koreada.supportfactory.APIFactory;
 import io.koreada.util.CommonConst;
 import io.koreada.util.CommonUtil;
@@ -42,6 +45,8 @@ public class Crawler {
 	private JsonGenerator jg = null;
 	
 	private Executer mExecuter = null;
+	
+	private int mExecuteBank = 0;
     
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
@@ -52,8 +57,19 @@ public class Crawler {
         // Initial Start Method
     public void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
-
-    	mExecuter = new Executer(mDebug, mInstall);
+    	mExecuteBank = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_BANK));
+    	
+    	switch(mExecuteBank) {
+	    	case 0:
+	    		mExecuter = new ExecuterIBK(mDebug, mInstall);
+	    		break;
+	    	case 1:
+	    		mExecuter = new ExecuterNH(mDebug, mInstall);
+	    		break;
+    		default:
+    			mExecuter = new ExecuterIBK(mDebug, mInstall);
+    			break;
+    	}
     	
     	ScheduleExecuteTask job = new ScheduleExecuteTask();
 	    Timer timer = new Timer();

@@ -13,12 +13,9 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -242,43 +239,4 @@ public class CryptoUtils {
 		ret = bos.toByteArray();
 		return ret;
 	}
-	
-
-	public static String generateMD2(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "MD2", 32);
-    }
-
-    public static String generateMD5(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "MD5", 32);
-    }
-
-    public static String generateSHA1(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "SHA-1", 40);
-    }
-
-    public static String generateSHA256(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "SHA-256", 64);
-    }
-    
-    public static String generateSHA512(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "SHA-512", 128);
-    }
-
-    public static String generateSHA384(String input) throws NoSuchAlgorithmException {
-        return generateString(input, "SHA-384", 96);
-    }
-
-    private static String generateString(String input, String algorithm, int minLength) throws NoSuchAlgorithmException {
-        MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-        byte[] bytes = messageDigest.digest(input.getBytes());
-        BigInteger integer = new BigInteger(1, bytes);
-        String result = integer.toString(16);
-        while (result.length() < minLength) {
-            result = "0" + result;
-        }
-        return result;
-    }
-	    
-	    
-
 }
