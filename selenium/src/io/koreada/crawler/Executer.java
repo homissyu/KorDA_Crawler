@@ -54,13 +54,13 @@ public class Executer {
 	}
 	
 	protected ArrayList<?> operate(){
-		this.driver = wf.getDriver();
-    	ArrayList<?> ret = new ArrayList();
+		ArrayList<?> ret = new ArrayList();
     	try {
+			this.driver = wf.getDriver();
     		String inputLine = null;
 	        StringBuffer response = null;
 	        
-	        driver.get(mUrl);
+	        this.driver.get(mUrl);
             Thread.sleep(1000);
 
             WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));

@@ -52,6 +52,7 @@ public class WebdriverFactory {
     	return generateDriver();
     }
     
+	@SuppressWarnings("deprecation")
 	private WebDriver generateDriver() {
     	iType = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_WEBDRIVER));
     	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
@@ -116,7 +117,7 @@ public class WebdriverFactory {
 	    		mIEOptions.setCapability("ignoreProtectedModeSettings", true);
 	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mIEOptions);
 	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
-	    		
+	        	capabilities.setCapability("ignoreZoomSetting", true);
 //	    		DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
 //	    		capabilities.setCapability(InternetExplorerDriver
 //	    		 .INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
