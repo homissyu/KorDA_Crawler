@@ -128,30 +128,6 @@ class AccountInfo {
 	}
 	
 	protected void setHashCode() throws NoSuchAlgorithmException {
-		StringBuffer ret = new StringBuffer();
-		ret.append("(");
-		ret.append("No="+this.getNo());
-		ret.append(CommonConst.COMMA);
-		ret.append("RegDate="+this.getRegData());
-//		ret.append(CommonConst.COMMA);
-//		ret.append("Withdraw="+this.getWithdraw());
-		ret.append(CommonConst.COMMA);
-		ret.append("Deposit="+this.getDeposit());
-//		ret.append(CommonConst.COMMA);
-//		ret.append("Balance"+this.getBalance());
-		ret.append(CommonConst.COMMA);
-		ret.append("Contents="+this.getContents());
-		ret.append(CommonConst.COMMA);
-		ret.append("SrcAccountNo="+this.getSrcAccNo());
-		ret.append(CommonConst.COMMA);
-		ret.append("SrcBank="+this.getSrcBank());
-		ret.append(CommonConst.COMMA);
-		ret.append("CMSCode"+this.getCMSCode());
-		ret.append(CommonConst.COMMA);
-		ret.append("TrType"+this.getTrType());
-		ret.append(CommonConst.COMMA);
-		ret.append("NonPay="+this.getNonPay());
-		ret.append(")");
-		this.hashCode = CryptoUtils.generateSHA256(ret.toString());
+		this.hashCode = CryptoUtils.generateSHA256(this.toString());
 	}
 }

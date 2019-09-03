@@ -124,9 +124,9 @@ public class Crawler {
 			try {	
 		    	if(!mShutdown){
 		    		obj = mExecuter.operate();
-//		    		System.out.println(obj);
-//		    		System.out.println(obj.isEmpty());
-//		    		System.out.println(obj.size());
+		    		System.out.println(obj);
+		    		System.out.println(obj.isEmpty());
+		    		System.out.println(obj.size());
 		    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
 		    				|| !obj.isEmpty()) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
