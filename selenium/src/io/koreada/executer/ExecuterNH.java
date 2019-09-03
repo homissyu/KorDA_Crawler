@@ -37,8 +37,8 @@ public class ExecuterNH extends Executer {
     private String mParam = null;
     
 	private IBK ibkParser = new IBK();
-	private Set<Integer> mOldHashCodeList = new HashSet<Integer>();
-	private Set<Integer> mNewHashCodeList = new HashSet<Integer>();
+	private Set<String> mOldHashCodeList = new HashSet<String>();
+	private Set<String> mNewHashCodeList = new HashSet<String>();
 	
 	private WebdriverFactory wf = null;
 	private WebDriver driver = null;

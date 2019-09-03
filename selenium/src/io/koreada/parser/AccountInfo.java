@@ -1,9 +1,12 @@
 package io.koreada.parser;
 
+import java.security.NoSuchAlgorithmException;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import io.koreada.util.CommonConst;
+import io.koreada.util.CryptoUtils;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 class AccountInfo {
@@ -27,7 +30,7 @@ class AccountInfo {
 	private String CMSCode = null;
 	private String trType = null;
 	private double nonPay = 0;
-	private int hashCode = 0;
+	private String hashCode = null;
 	
 	protected String getRegData() {
 		return regData;
@@ -120,11 +123,11 @@ class AccountInfo {
 		return ret.toString();
 	}
 	
-	protected int getHashCode() {
+	protected String getHashCode() {
 		return this.hashCode;
 	}
 	
-	protected void setHashCode() {
+	protected void setHashCode() throws NoSuchAlgorithmException {
 		StringBuffer ret = new StringBuffer();
 		ret.append("(");
 		ret.append("No="+this.getNo());
@@ -149,6 +152,6 @@ class AccountInfo {
 		ret.append(CommonConst.COMMA);
 		ret.append("NonPay="+this.getNonPay());
 		ret.append(")");
-		this.hashCode = ret.toString().hashCode();
+		this.hashCode = CryptoUtils.generateSHA256(ret.toString());
 	}
 }
