@@ -1,38 +1,29 @@
 package io.koreada.executer;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-import javax.net.ssl.HttpsURLConnection;
-
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.koreada.parser.IBK;
+import io.koreada.supportfactory.VKeyboardFactory;
 import io.koreada.supportfactory.WebdriverFactory;
-import io.koreada.util.CommonConst;
-import io.koreada.util.CommonUtil;
+import io.koreada.util.CryptoUtils;
 import io.koreada.util.Debug;
 import io.koreada.util.Install;
 
@@ -96,111 +87,52 @@ public class ExecuterNH extends Executer {
             WebElement newTrxElement = driver.findElement(By.xpath(".//*[@name='schRdo2']"));
             WebElement depositElement = driver.findElement(By.xpath(".//*[@name='schRdo3']"));
             
-//            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(freeAccElement));
-//            freeAccElement.click();
             jse.executeScript("rdoChange(1)");
             
             accountElement.click();
-            
             Thread.sleep(1000);
             
             WebElement tempEle = driver.findElement(By.xpath(".//*[@id='Tk_acno_layoutSingle']"));
-            WebElement logo = tempEle.findElement(By.id("imgSingle"));
-            System.out.println(logo.getScreenshotAs(OutputType.BASE64));
+            WebElement VirtualKeyboardImage = tempEle.findElement(By.id("imgSingle"));
+            String vKHashCode = CryptoUtils.generateSHA1(VirtualKeyboardImage.getScreenshotAs(OutputType.BASE64));
+//            System.out.println(vKHashCode);
+            ObjectMapper mapper = new ObjectMapper();
+            VKeyboardFactory [] vk = mapper.readValue(new File(mInstall.getLibDir()+File.separator + "vkeyboard" + File.separator + "NH" + File.separator + "vk.json"), VKeyboardFactory[].class);
+            ArrayList<VKeyboardFactory> vkList = new ArrayList<VKeyboardFactory>(Arrays.asList(vk));
+            VKeyboardFactory vkf = null;
+            for(int i=0;i<vkList.size();i++) {
+            	if((vkList.get(i).hashcode).equals(vKHashCode)) {
+            		vkf = (VKeyboardFactory)vkList.get(i);
+            		break;
+            	}
+            }
             
-//            String sTemp = CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT);
-//            
-//            BufferedWriter out = new BufferedWriter(new FileWriter(new File("/Users/karlchoi/Desktop/NH/logo-image"+sTemp+".txt")));
-//            out.write(logo.getScreenshotAs(OutputType.BASE64));
-//            out.close();
-//            
-//            File imgFile = logo.getScreenshotAs(OutputType.FILE);
-//            FileHandler.copy(imgFile, new File("/Users/karlchoi/Desktop/NH/logo-image"+sTemp+".png"));
-//            
-//            
-//            
-//            
-//            
-//            URL imageURL = new URL(logoSRC);
-//	        HttpsURLConnection mHttpsConn = (HttpsURLConnection) imageURL.openConnection();
-//	    	mHttpsConn.setRequestMethod("GET");
-//			mHttpsConn.setDoInput(true);
-//			mHttpsConn.setDoOutput(true);
-//System.out.println(mHttpsConn.getURL());            
-//			DataOutputStream dos = new DataOutputStream(mHttpsConn.getOutputStream());
-//			dos.flush();
-//			dos.close();
-//System.out.println(mHttpsConn.getResponseCode());			
-//			BufferedImage saveImage = ImageIO.read(mHttpsConn.getInputStream());
-//System.out.println(mHttpsConn.getInputStream());
-//System.out.println(mHttpsConn);
-//System.out.println(saveImage);
-//            ImageIO.write(saveImage, "png", new File("/Users/karlchoi/Desktop/NH/logo-image.png"));
+//            System.out.println(vkf.hashcode);
             
-//	        accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
-            
-//        	System.out.println(passElement.getLocation().getX());
             int [] p = {accountElement.getLocation().getX(), accountElement.getLocation().getY()};//Initial
         	
-//          int [] p0 = {305, 275};//0
-//        	int [] p1 = {340, 275};//1
-//        	int [] p2 = {340, 345};//2
-//        	int [] p3 = {340, 385};//3
-//        	int [] p4 = {300, 385};//4
-//        	int [] p5 = {270, 385};//5
-//        	int [] p6 = {230, 385};//6
-//        	int [] p7 = {230, 345};//7
-//        	int [] p8 = {230, 275};//8
-//        	int [] p9 = {270, 275};//9
-//        	int [] pEnd = {380, 300};//End
-        	
-        	int [] p0 = {305, 275};//0
-        	int [] p1 = {35, 0};//1
-        	int [] p2 = {0, 70};//2
-        	int [] p3 = {0, 40};//3
-        	int [] p4 = {-40, 0};//4
-        	int [] p5 = {-40, 0};//5
-        	int [] p6 = {-40, 0};//6
-        	int [] p7 = {230, 345};//7
-        	int [] p8 = {230, 275};//8
-        	int [] p9 = {270, 275};//9
-        	int [] pEnd = {380, 300};//End
-
-//        	System.out.println(p[0]+":"+p[1]);
-        	
-        	builder.moveByOffset(p0[0], p0[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_0[0], vkf.k_0[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p1[0], p1[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_0[0], vkf.k_1[1]-vkf.k_0[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p2[0], p2[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_2[0]-vkf.k_1[1], vkf.k_2[1]-vkf.k_1[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p3[0], p3[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_3[0]-vkf.k_2[1], vkf.k_3[1]-vkf.k_2[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p4[0], p4[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_4[0]-vkf.k_3[1], vkf.k_4[1]-vkf.k_3[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p5[0], p5[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_5[0]-vkf.k_4[1], vkf.k_5[1]-vkf.k_4[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p6[0], p6[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_6[0]-vkf.k_5[1], vkf.k_6[1]-vkf.k_5[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p7[0], p7[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_7[0]-vkf.k_6[1], vkf.k_7[1]-vkf.k_6[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p8[0], p8[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_8[0]-vkf.k_7[1], vkf.k_8[1]-vkf.k_7[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(p9[0], p9[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_9[0]-vkf.k_8[0], vkf.k_9[1]-vkf.k_8[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
-        	builder.moveByOffset(pEnd[0], pEnd[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_enter[0]-vkf.k_9[1], vkf.k_enter[1]-vkf.k_9[1]).click().build().perform();
         	Thread.sleep(100);
-        	System.out.println((accountElement.getAttribute("value")).length());
         	
             passElement.click();
 //            passElement.sendKeys("0409");
