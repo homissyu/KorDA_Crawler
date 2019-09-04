@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class IBK {
-	private ArrayList<String> mHashcodeList = new ArrayList<String>();
+	private HashCodeList mHashcodeList = new HashCodeList();
 	
 	public ArrayList<AccountInfo> parse(String aVal) throws JsonGenerationException, JsonMappingException, IOException, NoSuchAlgorithmException {
 		ArrayList<AccountInfo> rows = new ArrayList<AccountInfo>();
@@ -31,13 +31,13 @@ public class IBK {
 				accountInfo.setNonPay(arr[i+9]);
 				accountInfo.setHashCode();
 				rows.add(accountInfo);
-				mHashcodeList.add(accountInfo.getHashCode());
+				mHashcodeList.appendHashCode(accountInfo.getHashCode());
 			}
 		}
 		return rows;
 	}
 	
-	public ArrayList<String> getHashCodeList() {
+	public HashCodeList getHashCodeList() {
 		return mHashcodeList;
 	}
 }

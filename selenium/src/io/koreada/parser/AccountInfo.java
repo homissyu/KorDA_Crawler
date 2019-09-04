@@ -9,7 +9,7 @@ import io.koreada.util.CommonConst;
 import io.koreada.util.CryptoUtils;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-class AccountInfo {
+public class AccountInfo {
 	//�닚踰�, 嫄곕옒�씪�떆, 異쒓툑湲덉븸, �엯湲덇툑�븸, �옍�븸, 嫄곕옒�궡�슜, �긽��怨꾩쥖踰덊샇, �긽�����뻾, CMS肄붾뱶, 嫄곕옒援щ텇, 誘멸껐�젣(�닔�몴/�뼱�쓬) �뿴濡� �씠猷⑥뼱吏� �뜲�씠�꽣�엯�땲�떎.
 	private int no = 1;
 	
@@ -123,7 +123,7 @@ class AccountInfo {
 		return ret.toString();
 	}
 	
-	protected String getHashCode() {
+	public String getHashCode() {
 		return this.hashCode;
 	}
 	

@@ -151,6 +151,7 @@ public class CommonConst{
 	public static final String BROWSER_EXT_STR = "browserExt";
 	public static final String WEB_DRIVER_DIR_STR = "webdriver";
 	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";
+	public static final String BACKUP_FILE_NAME = "backup.bak";
 	 public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
 		}

@@ -21,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.koreada.parser.HashCodeList;
 import io.koreada.parser.IBK;
 import io.koreada.util.CommonConst;
 import io.koreada.util.CommonUtil;
@@ -46,8 +47,8 @@ public class CrawlerByPojo {
 	private HttpsURLConnection mHttpsConn = null;
 	
 	private IBK ibkParser = new IBK();
-	private ArrayList mOldHashCodeList = null;
-	private ArrayList mNewHashCodeList = null;
+	private HashCodeList mOldHashCodeList = null;
+	private HashCodeList mNewHashCodeList = null;
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	private String aFileName = CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + CommonConst.JSON_EXTENSION;
@@ -154,7 +155,7 @@ public class CrawlerByPojo {
 //		        ret = ibkParser.parse(response.toString());
 		        mNewHashCodeList = ibkParser.getHashCodeList();
 		        System.out.println("mNewHashCode:"+mNewHashCodeList);
-		        if(mOldHashCodeList.containsAll(mNewHashCodeList)) {
+		        if(mOldHashCodeList.equals(mNewHashCodeList)) {
 		        	ret.removeAll(ret);
 		        	ret.add("No Change");
 		        }

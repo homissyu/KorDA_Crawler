@@ -4,8 +4,6 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -20,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.koreada.parser.HashCodeList;
 import io.koreada.parser.IBK;
 import io.koreada.supportfactory.VKeyboardFactory;
 import io.koreada.supportfactory.WebdriverFactory;
@@ -37,12 +36,13 @@ public class ExecuterNH extends Executer {
     private String mParam = null;
     
 	private IBK ibkParser = new IBK();
-	private Set<String> mOldHashCodeList = new HashSet<String>();
-	private Set<String> mNewHashCodeList = new HashSet<String>();
+	private HashCodeList mOldHashCodeList = new HashCodeList();
+	private HashCodeList mNewHashCodeList = new HashCodeList();
 	
 	private WebdriverFactory wf = null;
 	private WebDriver driver = null;
 	
+	@SuppressWarnings("deprecation")
 	public ExecuterNH(Debug aDebug, Install aInstall) {
 		mDebug = aDebug;
 		mInstall = aInstall;

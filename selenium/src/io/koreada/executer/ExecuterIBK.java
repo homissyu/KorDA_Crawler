@@ -1,9 +1,8 @@
 package io.koreada.executer;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -14,9 +13,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.koreada.parser.AccountInfo;
+import io.koreada.parser.HashCodeList;
 import io.koreada.parser.IBK;
 import io.koreada.supportfactory.WebdriverFactory;
+import io.koreada.util.CommonConst;
 import io.koreada.util.Debug;
+import io.koreada.util.FileHandler;
 import io.koreada.util.Install;
 
 public class ExecuterIBK extends Executer {
@@ -29,12 +32,13 @@ public class ExecuterIBK extends Executer {
     private String mParam = null;
     
 	private IBK ibkParser = new IBK();
-	private Set<String> mOldHashCodeList = new HashSet<String>();
-	private Set<String> mNewHashCodeList = new HashSet<String>();
+	private HashCodeList mOldHashCodeList = new HashCodeList();
+	private HashCodeList mNewHashCodeList = new HashCodeList();
 	
 	private WebdriverFactory wf = null;
 	private WebDriver driver = null;
 	
+	@SuppressWarnings("deprecation")
 	public ExecuterIBK(Debug aDebug, Install aInstall) {
 		mDebug = aDebug;
 		mInstall = aInstall;
@@ -46,6 +50,20 @@ public class ExecuterIBK extends Executer {
     	mParam = URLDecoder.decode(mParam);
     	
     	wf = new WebdriverFactory(mDebug, mInstall);
+    	File aFile = new File(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
+//    	System.out.println("aFile.exists():"+aFile.exists());
+    	if(aFile.exists()) {
+    		mOldHashCodeList = readHashCodeListFile();
+//    		System.out.println((this.mOldHashCodeList.getHashCodeList()).toString());
+    	}
+	}
+	
+	private void writeHashCodeListFile(HashCodeList hashCodeList) {
+		FileHandler.writeSerFile(hashCodeList, mInstall.getRootDir(), CommonConst.BACKUP_FILE_NAME);
+	}
+	
+	private HashCodeList readHashCodeListFile() {
+		return (HashCodeList)FileHandler.readSerFile(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
 	}
 	
 	public void closeDriver() {
@@ -98,19 +116,34 @@ public class ExecuterIBK extends Executer {
         	}else if(inputLine.contains("\"result\":\"error\"")) throw new Exception("Exception Occured! : "+inputLine);
 
 	        ret = ibkParser.parse(response.toString());
-
+	        writeHashCodeListFile(ibkParser.getHashCodeList());
 //	        System.out.println("ret:"+ret);
 //	        System.out.println("ibkParser.getHashCodeList():"+ ibkParser.getHashCodeList());
 
 	        mNewHashCodeList.clear();
 	        mNewHashCodeList.addAll(ibkParser.getHashCodeList());
 	        
-//	        System.out.println("mNewHashCode:"+mNewHashCodeList);
-//	        System.out.println("mOldHashCode:"+mOldHashCodeList);
+//	        System.out.println("mNewHashCode:"+mNewHashCodeList.getHashCodeList());
+//	        System.out.println("mOldHashCode:"+mOldHashCodeList.getHashCodeList());
 	        
 	        if(mOldHashCodeList.equals(mNewHashCodeList)) {
 	        	ret.clear();
+	        }else {
+	        	AccountInfo aInfo = null;
+	        	ArrayList newRet = new ArrayList();
+	        	int iBreak = 0;
+	        	for(int i=0;i<ret.size();i++){
+	        		aInfo = (AccountInfo)ret.get(i);
+	        		System.out.println("aInfo:"+aInfo.toString());
+	        		if(mOldHashCodeList.contains(aInfo.getHashCode())) iBreak = i;
+	        	}
+	        	for(int i=0;i<=iBreak;i++) {
+	        		newRet.add(i, ret.get(i));
+	        	}
+	        	ret.clear();
+	        	ret.addAll(newRet);
 	        }
+	        
 //	        System.out.println(ret);
 	        
 	        mOldHashCodeList.clear();

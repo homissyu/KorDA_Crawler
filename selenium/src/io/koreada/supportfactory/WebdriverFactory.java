@@ -25,11 +25,9 @@ import io.koreada.util.Debug;
 import io.koreada.util.Install;
 
 public class WebdriverFactory {
-	private Debug mDebug = null;
 	private Install mInstall = null;
 	
 	//WebDriver
-    private WebDriver driver;
     private DesiredCapabilities capabilities = null;
     private ChromeOptions mChromeOptions = null;
     private FirefoxOptions mFirefoxOptions = null;
@@ -43,7 +41,6 @@ public class WebdriverFactory {
     private String mWebDriverID = null;
     
     public WebdriverFactory(Debug aDebug, Install aInstall) {
-    	mDebug = aDebug;
     	mInstall = aInstall;
 //    	this.driver = generateDriver();
     }
