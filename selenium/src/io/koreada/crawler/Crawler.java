@@ -18,10 +18,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.koreada.executer.Executer;
 import io.koreada.executer.ExecuterIBK;
 import io.koreada.executer.ExecuterNH;
+import io.koreada.parser.HashCodeList;
 import io.koreada.supportfactory.APIFactory;
 import io.koreada.util.CommonConst;
 import io.koreada.util.CommonUtil;
 import io.koreada.util.Debug;
+import io.koreada.util.FileHandler;
 import io.koreada.util.Install;
 
 /**
@@ -58,16 +60,21 @@ public class Crawler {
     public void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
     	mExecuteBank = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_BANK));
-    	
+    	HashCodeList aBackupHashCodeList = null;
+    	File aFile = new File(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
+		if(aFile.exists()) {
+			aBackupHashCodeList = readHashCodeListFile();
+//    		System.out.println((this.mOldHashCodeList.getHashCodeList()).toString());
+    	}
     	switch(mExecuteBank) {
 	    	case 0:
-	    		mExecuter = new ExecuterIBK(mDebug, mInstall);
+	    		mExecuter = new ExecuterIBK(mDebug, mInstall, aBackupHashCodeList);
 	    		break;
 	    	case 1:
-	    		mExecuter = new ExecuterNH(mDebug, mInstall);
+	    		mExecuter = new ExecuterNH(mDebug, mInstall, aBackupHashCodeList);
 	    		break;
     		default:
-    			mExecuter = new ExecuterIBK(mDebug, mInstall);
+    			mExecuter = new ExecuterIBK(mDebug, mInstall, aBackupHashCodeList);
     			break;
     	}
     	
@@ -102,7 +109,13 @@ public class Crawler {
         System.exit(0);
     }
     
-    
+    private void writeHashCodeListFile(HashCodeList hashCodeList) {
+		FileHandler.writeSerFile(hashCodeList, mInstall.getRootDir(), CommonConst.BACKUP_FILE_NAME);
+	}
+	
+	private HashCodeList readHashCodeListFile() {
+		return (HashCodeList)FileHandler.readSerFile(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
+	}
     
     // Main Method
 	public static void main(String[] args) {
@@ -124,14 +137,15 @@ public class Crawler {
 			try {	
 		    	if(!mShutdown){
 		    		obj = mExecuter.operate();
-		    		System.out.println(obj);
-		    		System.out.println(obj.isEmpty());
-		    		System.out.println(obj.size());
+//		    		System.out.println(obj);
+//		    		System.out.println(obj.isEmpty());
+//		    		System.out.println(obj.size());
 		    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
 		    				|| !obj.isEmpty()) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
 		    				mapper.writeValue(jg, obj);
 		    				mApi.send2API(mapper.writeValueAsString(obj));
+		    		        writeHashCodeListFile(mExecuter.getHashCodeList());
 		    				jg.writeRaw(System.lineSeparator());
 				    	}else {
 				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aFileName), obj);

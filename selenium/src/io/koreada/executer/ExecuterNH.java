@@ -43,7 +43,7 @@ public class ExecuterNH extends Executer {
 	private WebDriver driver = null;
 	
 	@SuppressWarnings("deprecation")
-	public ExecuterNH(Debug aDebug, Install aInstall) {
+	public ExecuterNH(Debug aDebug, Install aInstall, HashCodeList aHashCodeList) {
 		mDebug = aDebug;
 		mInstall = aInstall;
 		
@@ -54,6 +54,7 @@ public class ExecuterNH extends Executer {
     	mParam = URLDecoder.decode(mParam);
     	
     	wf = new WebdriverFactory(mDebug, mInstall);
+    	mOldHashCodeList = aHashCodeList;
 	}
 	
 	public void closeDriver() {
@@ -79,15 +80,9 @@ public class ExecuterNH extends Executer {
 	        jse.executeScript("icsi_popUrlLink('ICSI0010I', 'P01')");
 	        Thread.sleep(1000);
 	        
-//	        WebElement freeAccElement = driver.findElement(By.xpath(".//*[@id='a1567136977665']"));
 	        WebElement accountElement = driver.findElement(By.xpath(".//*[@id='acno']"));
-            WebElement passElement = driver.findElement(By.xpath(".//*[@id='io_pw_30']"));
-            WebElement compElement = driver.findElement(By.xpath(".//*[@id='io_coppsn_dsc']"));
-            WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rlno']"));
-            WebElement newTrxElement = driver.findElement(By.xpath(".//*[@name='schRdo2']"));
-            WebElement depositElement = driver.findElement(By.xpath(".//*[@name='schRdo3']"));
-            
-            jse.executeScript("rdoChange(1)");
+
+	        jse.executeScript("rdoChange(1)");
             
             accountElement.click();
             Thread.sleep(1000);
@@ -107,54 +102,127 @@ public class ExecuterNH extends Executer {
             	}
             }
             
-//            System.out.println(vkf.hashcode);
+            System.out.println("acno_vKHashCode:"+vkf.hashcode);
+
             
-            int [] p = {accountElement.getLocation().getX(), accountElement.getLocation().getY()};//Initial
-        	
-        	builder.moveByOffset(vkf.k_0[0], vkf.k_0[1]).click().build().perform();
+            builder.moveByOffset(vkf.k_3[0], vkf.k_3[1]).click().build().perform(); //3
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_1[0]-vkf.k_0[0], vkf.k_1[1]-vkf.k_0[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_3[0], vkf.k_1[1]-vkf.k_3[1]).click().build().perform(); //1
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_2[0]-vkf.k_1[1], vkf.k_2[1]-vkf.k_1[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_7[0]-vkf.k_1[0], vkf.k_7[1]-vkf.k_1[1]).click().build().perform(); //7
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_3[0]-vkf.k_2[1], vkf.k_3[1]-vkf.k_2[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_0[0]-vkf.k_7[0], vkf.k_0[1]-vkf.k_7[1]).click().build().perform(); //0
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_4[0]-vkf.k_3[1], vkf.k_4[1]-vkf.k_3[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_0[0]-vkf.k_0[0], vkf.k_0[1]-vkf.k_0[1]).click().build().perform(); //0
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_5[0]-vkf.k_4[1], vkf.k_5[1]-vkf.k_4[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_0[0], vkf.k_1[1]-vkf.k_0[1]).click().build().perform(); //1
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_6[0]-vkf.k_5[1], vkf.k_6[1]-vkf.k_5[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_7[0]-vkf.k_1[0], vkf.k_7[1]-vkf.k_1[1]).click().build().perform(); //7
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_7[0]-vkf.k_6[1], vkf.k_7[1]-vkf.k_6[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_5[0]-vkf.k_7[0], vkf.k_5[1]-vkf.k_7[1]).click().build().perform(); //5
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_8[0]-vkf.k_7[1], vkf.k_8[1]-vkf.k_7[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_7[0]-vkf.k_5[0], vkf.k_7[1]-vkf.k_5[1]).click().build().perform(); //7
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_9[0]-vkf.k_8[0], vkf.k_9[1]-vkf.k_8[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_3[0]-vkf.k_7[0], vkf.k_3[1]-vkf.k_7[1]).click().build().perform(); //3
         	Thread.sleep(100);
-        	builder.moveByOffset(vkf.k_enter[0]-vkf.k_9[1], vkf.k_enter[1]-vkf.k_9[1]).click().build().perform();
+        	builder.moveByOffset(vkf.k_9[0]-vkf.k_3[0], vkf.k_9[1]-vkf.k_3[1]).click().build().perform(); //9
         	Thread.sleep(100);
-        	
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_9[0], vkf.k_1[1]-vkf.k_9[1]).click().build().perform(); //1
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_1[0], vkf.k_1[1]-vkf.k_1[1]).click().build().perform(); //1
+        	Thread.sleep(100);
+//        	builder.moveByOffset(vkf.k_enter[0]-vkf.k_1[1], vkf.k_enter[1]-vkf.k_1[1]).click().build().perform();
+//        	Thread.sleep(100);
+
+        	WebElement passElement = driver.findElement(By.xpath(".//*[@id='io_pw_30']"));
+           
+        	new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(passElement));
             passElement.click();
-//            passElement.sendKeys("0409");
-            Thread.sleep(100);
+            Thread.sleep(1000);
+            tempEle = driver.findElement(By.xpath(".//*[@id='Tk_io_pw_30_layoutSingle']"));
+            VirtualKeyboardImage = tempEle.findElement(By.id("imgSingle"));
+            vKHashCode = CryptoUtils.generateSHA1(VirtualKeyboardImage.getScreenshotAs(OutputType.BASE64));
             
+            System.out.println("pwno_vKHashCode:"+vKHashCode);
+            
+            for(int i=0;i<vkList.size();i++) {
+            	if((vkList.get(i).hashcode).equals(vKHashCode)) {
+            		vkf = (VKeyboardFactory)vkList.get(i);
+            		break;
+            	}
+            }
+            
+            builder.moveByOffset(vkf.k_0[0]-vkf.k_1[0], vkf.k_0[1]-vkf.k_1[1]+33).click().build().perform(); //0
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_4[0]-vkf.k_0[0], vkf.k_4[1]+33-vkf.k_0[1]+33).click().build().perform(); //4
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_0[0]-vkf.k_4[0], vkf.k_0[1]+33-vkf.k_4[1]+33).click().build().perform(); //0
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_9[0]-vkf.k_0[0], vkf.k_9[1]+33-vkf.k_0[1]+33).click().build().perform(); //9
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_enter[0]-vkf.k_9[1], vkf.k_enter[1]+33-vkf.k_9[1]+33).click().build().perform();
+        	Thread.sleep(100);
+            
+        	WebElement compElement = driver.findElement(By.xpath(".//*[@id='io_coppsn_dsc']"));
+            
+        	new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(compElement));
             compElement.click();
             Thread.sleep(100);
             
+            WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rlno']"));
+            
+            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(bizNoElement));
             bizNoElement.click();
-//            bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
+            
+            Thread.sleep(1000);
+            tempEle = driver.findElement(By.xpath(".//*[@id='Tk_rlno_layoutSingle']"));
+            VirtualKeyboardImage = tempEle.findElement(By.id("imgSingle"));
+            vKHashCode = CryptoUtils.generateSHA1(VirtualKeyboardImage.getScreenshotAs(OutputType.BASE64));
+            
+            System.out.println("rlno_vKHashCode:"+vKHashCode);
+            
+            for(int i=0;i<vkList.size();i++) {
+            	if((vkList.get(i).hashcode).equals(vKHashCode)) {
+            		vkf = (VKeyboardFactory)vkList.get(i);
+            		break;
+            	}
+            }
+            
+            builder.moveByOffset(vkf.k_8[0], vkf.k_8[1]+99).click().build().perform(); //8
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_8[0], vkf.k_1[1]+99-vkf.k_8[1]+99).click().build().perform(); //1
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_0[0]-vkf.k_1[0], vkf.k_0[1]+99-vkf.k_1[1]+99).click().build().perform(); //0
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_1[0]-vkf.k_0[0], vkf.k_1[1]+99-vkf.k_0[1]+99).click().build().perform(); //1
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_4[0]-vkf.k_1[0], vkf.k_4[1]+99-vkf.k_1[1]+99).click().build().perform(); //4
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_6[0]-vkf.k_4[0], vkf.k_6[1]+99-vkf.k_4[1]+99).click().build().perform(); //6
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_0[0]-vkf.k_6[0], vkf.k_0[1]+99-vkf.k_6[1]+99).click().build().perform(); //0
+        	Thread.sleep(100);
+        	builder.moveByOffset(vkf.k_enter[0]-vkf.k_0[1], vkf.k_enter[1]+99-vkf.k_0[1]+99).click().build().perform();
+        	Thread.sleep(100);
             Thread.sleep(100);
             
+            WebElement newTrxElement = driver.findElement(By.xpath(".//*[@name='schRdo2']"));
+            
+            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(newTrxElement));
             newTrxElement.sendKeys("2");
             Thread.sleep(100);
             
+            WebElement depositElement = driver.findElement(By.xpath(".//*[@name='schRdo3']"));
+
+            new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(depositElement));
             depositElement.sendKeys("2");
 	        Thread.sleep(100);
 	        
 	        WebElement btnSpanElement = driver.findElement(By.xpath(".//*[@class='btn1']"));
 	        WebElement btnElement = btnSpanElement.findElement(By.tagName("A"));
 	        
-	        btnElement.click();
+	        new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(btnElement));
+	        btnElement.submit();
 	        
 //	        jse.executeScript("setCount2(30)");
 

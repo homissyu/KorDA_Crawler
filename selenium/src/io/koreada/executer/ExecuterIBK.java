@@ -1,6 +1,5 @@
 package io.koreada.executer;
 
-import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
@@ -17,9 +16,7 @@ import io.koreada.parser.AccountInfo;
 import io.koreada.parser.HashCodeList;
 import io.koreada.parser.IBK;
 import io.koreada.supportfactory.WebdriverFactory;
-import io.koreada.util.CommonConst;
 import io.koreada.util.Debug;
-import io.koreada.util.FileHandler;
 import io.koreada.util.Install;
 
 public class ExecuterIBK extends Executer {
@@ -39,7 +36,7 @@ public class ExecuterIBK extends Executer {
 	private WebDriver driver = null;
 	
 	@SuppressWarnings("deprecation")
-	public ExecuterIBK(Debug aDebug, Install aInstall) {
+	public ExecuterIBK(Debug aDebug, Install aInstall, HashCodeList aHashCodeList) {
 		mDebug = aDebug;
 		mInstall = aInstall;
 		
@@ -50,20 +47,13 @@ public class ExecuterIBK extends Executer {
     	mParam = URLDecoder.decode(mParam);
     	
     	wf = new WebdriverFactory(mDebug, mInstall);
-    	File aFile = new File(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
+    	
 //    	System.out.println("aFile.exists():"+aFile.exists());
-    	if(aFile.exists()) {
-    		mOldHashCodeList = readHashCodeListFile();
-//    		System.out.println((this.mOldHashCodeList.getHashCodeList()).toString());
-    	}
+    	if(aHashCodeList != null)mOldHashCodeList = aHashCodeList;
 	}
 	
-	private void writeHashCodeListFile(HashCodeList hashCodeList) {
-		FileHandler.writeSerFile(hashCodeList, mInstall.getRootDir(), CommonConst.BACKUP_FILE_NAME);
-	}
-	
-	private HashCodeList readHashCodeListFile() {
-		return (HashCodeList)FileHandler.readSerFile(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
+	public HashCodeList getHashCodeList() {
+		return this.ibkParser.getHashCodeList();
 	}
 	
 	public void closeDriver() {
@@ -116,7 +106,6 @@ public class ExecuterIBK extends Executer {
         	}else if(inputLine.contains("\"result\":\"error\"")) throw new Exception("Exception Occured! : "+inputLine);
 
 	        ret = ibkParser.parse(response.toString());
-	        writeHashCodeListFile(ibkParser.getHashCodeList());
 //	        System.out.println("ret:"+ret);
 //	        System.out.println("ibkParser.getHashCodeList():"+ ibkParser.getHashCodeList());
 
@@ -134,7 +123,7 @@ public class ExecuterIBK extends Executer {
 	        	int iBreak = 0;
 	        	for(int i=0;i<ret.size();i++){
 	        		aInfo = (AccountInfo)ret.get(i);
-	        		System.out.println("aInfo:"+aInfo.toString());
+//	        		System.out.println("aInfo:"+aInfo.toString());
 	        		if(mOldHashCodeList.contains(aInfo.getHashCode())) iBreak = i;
 	        	}
 	        	for(int i=0;i<=iBreak;i++) {
@@ -145,7 +134,6 @@ public class ExecuterIBK extends Executer {
 	        }
 	        
 //	        System.out.println(ret);
-	        
 	        mOldHashCodeList.clear();
 	        mOldHashCodeList.addAll(mNewHashCodeList);
 	        
