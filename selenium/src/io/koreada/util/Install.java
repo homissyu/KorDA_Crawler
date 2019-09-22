@@ -87,6 +87,9 @@ public class Install {
     public static final String SMART_BRIDGE_BANK = "SB.BANK";
     public static final String SMART_BRIDGE_BANK_DEFAULT = "0";
     
+    public static final String SMART_BRIDGE_BANK_PASS = "SB.PASS";
+    public static final String SMART_BRIDGE_BANK_PASS_DEFAULT = "0000";
+    
     // Daemon
     public static final String DAEMON_INTERVAL = "DAEMON.INTERVAL";
     public static final String DAEMON_INTERVAL_DEFAULT = "20"; //seconds
@@ -124,6 +127,7 @@ public class Install {
         SMART_BRIDGE_WEBDRIVER, SMART_BRIDGE_WEBDRIVER_DEFAULT,
         SMART_BRIDGE_API, SMART_BRIDGE_API_DEFAULT,
         SMART_BRIDGE_BANK, SMART_BRIDGE_BANK_DEFAULT,
+        SMART_BRIDGE_BANK_PASS, SMART_BRIDGE_BANK_PASS_DEFAULT,
         
         RESULT_TYPE, RESULT_TYPE_DEFAULT,
         RESULT_LOG_TYPE, RESULT_LOG_TYPE_DEFAULT

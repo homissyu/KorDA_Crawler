@@ -260,9 +260,9 @@ public class ExecuterNH extends Executer {
 		} catch (UnhandledAlertException e) {
 		    Alert alert = driver.switchTo().alert();
 		    alert.dismiss();
-		    mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+		    Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
-			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 			e.printStackTrace();
 		} finally {
 			closeDriver();

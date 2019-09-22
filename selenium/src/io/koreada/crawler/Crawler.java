@@ -49,12 +49,12 @@ public class Crawler {
 	private Executer mExecuter = null;
 	
 	private int mExecuteBank = 0;
-    
+	
     // Constructor
     public Crawler() throws FileNotFoundException, IOException {
     	mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(mInstall.getLogDir() + File.separator + aFileName)));
-	}
+    }
     
         // Initial Start Method
     public void start(String[] args) throws Exception {
@@ -90,11 +90,12 @@ public class Crawler {
             try {
                 mInstall = new Install(args);
                 mDebug = new Debug(mInstall);
+                Debug.setErrLog(CommonConst.LOG_FILE_NAME);
                 mApi = new APIFactory(mInstall);
             } catch (Exception e) {
             	mInstall = null;
             	mDebug = null;
-            	mDebug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
+            	Debug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
             	System.exit(1);
             }
         }
@@ -102,9 +103,9 @@ public class Crawler {
 
     // Shutdown Method, Connection disconnect, System.exit
     public void shutdown() {
-    	mDebug.trace(SUBSYSTEM, 1, "Shutting down....");
+    	Debug.trace(SUBSYSTEM, 1, "Shutting down....");
     	mShutdown = true;
-    	mDebug.closeErrLog();
+    	Debug.closeErrLog();
         mExecuter.closeDriver();
         System.exit(0);
     }
@@ -126,7 +127,7 @@ public class Crawler {
 			wc.start(args);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage());
+			Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage());
 			wc.mExecuter.closeDriver();
 		}
     }
@@ -144,7 +145,7 @@ public class Crawler {
 		    				|| !obj.isEmpty()) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
 		    				mapper.writeValue(jg, obj);
-		    				mApi.send2API(mapper.writeValueAsString(obj));
+//		    				mApi.send2API(mapper.writeValueAsString(obj));
 		    		        writeHashCodeListFile(mExecuter.getHashCodeList());
 		    				jg.writeRaw(System.lineSeparator());
 				    	}else {
@@ -157,7 +158,7 @@ public class Crawler {
 		    	}
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				mDebug.trace(SUBSYSTEM, 0,ex.getLocalizedMessage());
+				Debug.traceError(SUBSYSTEM, ex,ex.getLocalizedMessage());
 			} 
 	    }		
 	}

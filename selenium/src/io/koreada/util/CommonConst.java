@@ -101,7 +101,7 @@ public class CommonConst{
 	public static final String REMAINING_BYTES_LENGTH = "REMAINING_BYTES_LENGTH";
 	public static final String IS_RAID = "IS_RAID";
 	public static final String LOG_TYPE_SIZE = "SIZE";
-	public static final String LOG_FILE_NAME = "CRaid.log";
+	public static final String LOG_FILE_NAME = "CrawlerIBK.log";
 	public static final int OPERATION_MODE = 0;
 	public static final int TEST_MODE = 1;
 	public static final int QA_MODE = 2;

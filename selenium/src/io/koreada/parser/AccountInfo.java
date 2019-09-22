@@ -96,8 +96,8 @@ public class AccountInfo {
 	public String toString(){
 		StringBuffer ret = new StringBuffer();
 		ret.append("(");
-		ret.append("No="+this.getNo());
-		ret.append(CommonConst.COMMA);
+//		ret.append("No="+this.getNo());
+//		ret.append(CommonConst.COMMA);
 		ret.append("RegDate="+this.getRegData());
 //		ret.append(CommonConst.COMMA);
 //		ret.append("Withdraw="+this.getWithdraw());

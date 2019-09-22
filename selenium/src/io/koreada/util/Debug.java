@@ -106,7 +106,7 @@ public class Debug {
 	public Debug(Install aInstall) throws Exception {
         if (mInitialized)
             return;
-
+        
         mInstall = aInstall;
 
         mStdOut = new PrintWriter(System.out, true);
@@ -127,7 +127,7 @@ public class Debug {
         File fosFile = new File(fosFileName);
         if (!fosFile.exists())
             debugLogfilePrint("");
-
+        
         mInitialized = true;
     }
 
@@ -277,7 +277,7 @@ public class Debug {
 
     //--------------------------------------------------
     private static String getDebugLogfileName() {
-        return mInstall.getLogDir() + File.separator +
+    	return mInstall.getLogDir() + File.separator +
                         LOGGING_LOGFILENAME;
     }
 
@@ -307,7 +307,7 @@ public class Debug {
     // Print a message to a special debug logfile, then close it.
     //--------------------------------------------------
     private static void debugLogfilePrint(String s) {
-        String fosFileName = getDebugLogfileName();
+    	String fosFileName = getDebugLogfileName();
         PrintWriter pwos = openDebugLogfile(fosFileName);
         if (pwos == null)
             return;
@@ -455,6 +455,7 @@ public class Debug {
         if (mVerbosity >= aVerbosity &&
                     (mSubSystems.contains("ALL") || mSubSystems.contains(aSubSystem))) {
             String string = aSubSystem + ": " + aMsg;
+            
             stdoutPrint(string, nl);
             logfilePrint(string, nl);
         }

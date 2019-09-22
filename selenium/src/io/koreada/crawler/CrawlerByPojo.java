@@ -90,7 +90,7 @@ public class CrawlerByPojo {
                 mDebug = new Debug(mInstall);
             } catch (Exception e) {
             	mInstall = null;
-            	mDebug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
+            	Debug.traceError(SUBSYSTEM, e, "Exception occured : "+e.getLocalizedMessage());
                 System.exit(1);
             }
         }
@@ -98,7 +98,7 @@ public class CrawlerByPojo {
 
     // Shutdown Method, Connection disconnect, System.exit
     public void shutdown() {
-    	mDebug.trace(SUBSYSTEM, 1, "Shutting down....");
+    	Debug.trace(SUBSYSTEM, 1, "Shutting down....");
     	mShutdown = true;
         Debug.closeErrLog();
         System.exit(0);
@@ -164,10 +164,10 @@ public class CrawlerByPojo {
 		        
 
 		        
-			}else mDebug.trace(SUBSYSTEM, 0, "ResponseCode:"+mHttpsConn.getResponseCode());
+			}else Debug.trace(SUBSYSTEM, 0, "ResponseCode:"+mHttpsConn.getResponseCode());
 			
 		} catch (Exception e) {
-			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 			e.printStackTrace();
 			
 		} finally {
@@ -206,11 +206,11 @@ public class CrawlerByPojo {
 		    		}
 		    	}else{
 		    		jg.close();
-		    		mDebug.closeErrLog();
+		    		Debug.closeErrLog();
 		    		System.exit(0);
 		    	}
 			}catch(Exception ex) {
-				mDebug.trace(SUBSYSTEM, 0, ex.getStackTrace().toString());
+				Debug.traceError(SUBSYSTEM, ex, ex.getStackTrace().toString());
 				ex.printStackTrace();
 			} 
 	    }		

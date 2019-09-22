@@ -48,7 +48,6 @@ public class ExecuterIBK extends Executer {
     	
     	wf = new WebdriverFactory(mDebug, mInstall);
     	
-//    	System.out.println("aFile.exists():"+aFile.exists());
     	if(aHashCodeList != null)mOldHashCodeList = aHashCodeList;
 	}
 	
@@ -69,7 +68,7 @@ public class ExecuterIBK extends Executer {
 	        StringBuffer response = null;
 	        
 	        driver.get(mUrl);
-            Thread.sleep(1000);
+            Thread.sleep(100);
 
             WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));
             WebElement passElement = driver.findElement(By.xpath(".//*[@id='acnt_pwd']"));
@@ -81,7 +80,7 @@ public class ExecuterIBK extends Executer {
             accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
             Thread.sleep(100);
             passElement.click();
-            passElement.sendKeys("0409");
+            passElement.sendKeys(this.mInstall.getProperty(Install.SMART_BRIDGE_BANK_PASS));
             Thread.sleep(100);
             bizNoElement.click();
             bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
@@ -117,6 +116,7 @@ public class ExecuterIBK extends Executer {
 	        
 	        if(mOldHashCodeList.equals(mNewHashCodeList)) {
 	        	ret.clear();
+//	        	System.out.println("There isn't new one");
 	        }else {
 	        	AccountInfo aInfo = null;
 	        	ArrayList newRet = new ArrayList();
@@ -124,10 +124,12 @@ public class ExecuterIBK extends Executer {
 	        	for(int i=0;i<ret.size();i++){
 	        		aInfo = (AccountInfo)ret.get(i);
 //	        		System.out.println("aInfo:"+aInfo.toString());
-	        		if(mOldHashCodeList.contains(aInfo.getHashCode())) iBreak = i;
+	        		iBreak = i;
+	        		if(mOldHashCodeList.contains(aInfo.getHashCode())) break;
+//	        		System.out.println(iBreak);
 	        	}
-	        	for(int i=0;i<=iBreak;i++) {
-	        		newRet.add(i, ret.get(i));
+	        	for(int i=0;i<iBreak;i++) {
+	        		newRet.add(i, (AccountInfo)ret.get(i));
 	        	}
 	        	ret.clear();
 	        	ret.addAll(newRet);
@@ -140,9 +142,9 @@ public class ExecuterIBK extends Executer {
 		} catch (UnhandledAlertException e) {
 		    Alert alert = driver.switchTo().alert();
 		    alert.dismiss();
-		    mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+		    Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
-			mDebug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 			e.printStackTrace();
 		} finally {
 			closeDriver();

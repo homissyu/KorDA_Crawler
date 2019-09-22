@@ -305,10 +305,10 @@ public class CrawlerForKeyboardSecurity {
 		      Alert alert = driver.switchTo().alert();
 //		      ret.add(alert.getText());
 		      alert.dismiss();
-		      Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+		      Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Debug.trace(SUBSYSTEM, 0,e.getLocalizedMessage()+" Not Available Yet !!");
+			Debug.traceError(SUBSYSTEM, e,e.getLocalizedMessage()+" Not Available Yet !!");
 		} finally {
 			driver.close();
 			if(driver != null)driver.quit();
