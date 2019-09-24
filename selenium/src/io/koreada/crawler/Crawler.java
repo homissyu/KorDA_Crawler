@@ -152,7 +152,7 @@ public class Crawler {
 				    	}else {
 				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aAccountFileName), obj);
 				    	}
-//		    			mApi.send2API(mapper.writeValueAsString(obj));
+		    			mApi.send2API(mapper.writeValueAsString(obj));
 	    		        writeHashCodeListFile(mExecuter.getHashCodeList());
 		    		}
 		    	}else{
