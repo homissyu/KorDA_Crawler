@@ -91,16 +91,103 @@ public class FileHandler {
         }
     }
     
-    private static boolean checkFilePath(String aFilePath) throws IOException {
+    /**
+     * @param sSourcePath
+     * @param sTargetPath
+     * @param saFileList
+     * @throws IOException
+     * @throws JayException
+     */
+    public static void copyFile(String sSourcePath, String sTargetPath, String[] saFileList) throws Exception {
+        for(int i=0;i<saFileList.length;i++) {
+            File fInFile = new File(sSourcePath+File.separator+saFileList[i]);
+            File fOutFile = new File(sTargetPath+File.separator+saFileList[i]);
+            FileInputStream in = null;
+            FileOutputStream out = null;
+            byte[] buffer;
+            int bytes_read;
+
+            try {
+                if(!fInFile.exists() || !fInFile.isFile())
+                    throw new Exception("FileCopy:no such file or directory:"+"fInFile:"+sSourcePath+File.separator+saFileList[i]);
+                if(!fInFile.canRead())
+                    throw new Exception("FileCopy:source file is unreadable:"+"fInFile:"+sSourcePath+File.separator+saFileList[i]);
+                in = new FileInputStream(fInFile);
+                out = new FileOutputStream(fOutFile);
+
+                buffer = new byte[(int)fInFile.length()];
+                while(true) {
+                    bytes_read = in.read(buffer);
+                    if(bytes_read == -1)
+                        break;
+                }
+
+                out.write(buffer);
+                out.flush();
+            }finally {
+                if(in != null) in.close();
+                if(out != null) out.close();
+            }
+        }        
+    }
+    
+    /**
+     * @param sSourcePath
+     * @param sTargetPath
+     * @throws IOException
+     * @throws JayException
+     */
+    public static void copyFile(String sSourcePath, String sTargetPath) throws Exception {
+        File fInFile = new File(sSourcePath);
+        File fOutFile = new File(sTargetPath);
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        byte[] buffer;
+        int bytes_read;
+
+        try {
+            if(!fInFile.exists() || !fInFile.isFile())
+                throw new Exception("FileCopy:no such file or directory:"+sSourcePath);
+            if(!fInFile.canRead())
+                throw new Exception("FileCopy:source file is unreadable:"+sSourcePath);
+            long iLength = fInFile.length();
+            if(iLength >0 ) {
+            	in = new FileInputStream(fInFile);
+                out = new FileOutputStream(fOutFile);
+                buffer = new byte[(int)iLength];
+                while(true) {
+                    bytes_read = in.read(buffer);
+                    if(bytes_read == -1)
+                        break;
+                }
+                out.write(buffer);
+                out.flush();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+        	if(in != null) in.close();
+            if(out != null) out.close();
+        }
+    }
+    
+    public static boolean checkFilePath(String aFilePath) throws IOException {
     	boolean ret = false;
     	File file = new File(aFilePath);
-        if(!file.exists())
-            file.createNewFile();
+        if(!file.exists()) file.createNewFile(); 
         ret = true;
     	return ret;
     }
     
-    private static boolean checkPath(String aPath) throws IOException {
+    public static boolean isEmptyFile(String aFilePath) {
+    	boolean ret = true;
+    	File file = new File(aFilePath);
+    	if(file.length()>0) ret = false;
+        System.out.println(aFilePath+":"+file.length()+":"+ret);
+    	return ret;
+    }
+    
+    public static boolean checkPath(String aPath) throws IOException {
     	boolean ret = false;
     	File file = new File(aPath);
         if(!file.exists())
@@ -253,10 +340,10 @@ public class FileHandler {
 //                         (9)Horizontal Tab (10)Line feed  (11)Vertical tab (13)Carriage return (32)Space (126)tilde
                 	if (c==9 || c == 10 || c == 11 || c == 13 || (c >= 32 && c <= 126)) {
                 		bResult = true;
-//                                (153)Superscript two (160)ϊ  (255) No break space                     
+//                                (153)Superscript two (160)��  (255) No break space                     
                     } else if (c == 153 || c >= 160 && c <= 255) {
                 		bResult = true;
-//                                (884)ʹ (885)͵ (890)ͺ (894); (900)' (974)ώ     
+//                                (884)姑 (885)孤 (890)故 (894)槁 (900)' (974)��     
                     } else if (c == 884 || c == 885 || c == 890 || c == 894 || c >= 900 && c <= 1019) {
                 		bResult = true;
                     } else {                        

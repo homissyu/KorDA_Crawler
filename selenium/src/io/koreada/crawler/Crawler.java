@@ -4,9 +4,7 @@
 package io.koreada.crawler;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,21 +41,26 @@ public class Crawler {
     private int iInterval = 0;
     
     private ObjectMapper mapper = new ObjectMapper();
-	private String aFileName = CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + CommonConst.JSON_EXTENSION;
+	private String aAccountFileName = CommonConst.ACCOUNT_INFO_NAME + CommonConst.CURRENT_DIR + CommonConst.JSON_EXTENSION;
 	private JsonGenerator jg = null;
 	
 	private Executer mExecuter = null;
 	
 	private int mExecuteBank = 0;
 	
+	private String aAccountInfoFilePath = mInstall.getLogDir() + File.separator +aAccountFileName;
+	
     // Constructor
-    public Crawler() throws FileNotFoundException, IOException {
+    public Crawler() throws Exception {
+    	if(!FileHandler.isEmptyFile(aAccountInfoFilePath)) {
+    		FileHandler.copyFile(aAccountInfoFilePath,  mInstall.getLogDir() + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT) + CommonConst.CURRENT_DIR + aAccountFileName);
+    	}
     	mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(mInstall.getLogDir() + File.separator + aFileName)));
+    	jg = mapper.getFactory().createGenerator(new FileOutputStream(new File(mInstall.getLogDir() + File.separator + aAccountFileName)));
     }
     
         // Initial Start Method
-    public void start(String[] args) throws Exception {
+    private void start(String[] args) throws Exception {
     	iInterval = Integer.parseInt(mInstall.getProperty(Install.DAEMON_INTERVAL));
     	mExecuteBank = Integer.parseInt(mInstall.getProperty(Install.SMART_BRIDGE_BANK));
     	HashCodeList aBackupHashCodeList = null;
@@ -145,12 +148,12 @@ public class Crawler {
 		    				|| !obj.isEmpty()) {
 		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
 		    				mapper.writeValue(jg, obj);
-//		    				mApi.send2API(mapper.writeValueAsString(obj));
-		    		        writeHashCodeListFile(mExecuter.getHashCodeList());
 		    				jg.writeRaw(System.lineSeparator());
 				    	}else {
-				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aFileName), obj);
+				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aAccountFileName), obj);
 				    	}
+//		    			mApi.send2API(mapper.writeValueAsString(obj));
+	    		        writeHashCodeListFile(mExecuter.getHashCodeList());
 		    		}
 		    	}else{
 		    		jg.close();
