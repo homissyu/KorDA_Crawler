@@ -18,8 +18,9 @@ public class APIFactory {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void send2API(String aParam) throws IOException {
-    	URL url = null;
+	public boolean send2API(String aParam) throws IOException {
+    	boolean ret = false;
+		URL url = null;
     	DataOutputStream dos = null;
     	HttpURLConnection mHttpConn = null;
     	try {
@@ -56,6 +57,7 @@ public class APIFactory {
 				}
 				br.close();
 				System.out.println("" + sb.toString());
+				ret = true;
 			} else {
 				System.out.println(iResponseCode+":"+mHttpConn.getResponseMessage());
 			}
@@ -68,5 +70,6 @@ public class APIFactory {
     		mHttpConn.disconnect();
     		if(dos != null) dos.close();
     	}
+    	return ret;
     }
 }
