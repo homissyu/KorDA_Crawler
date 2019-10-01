@@ -115,6 +115,7 @@ public class WebdriverFactory {
 	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mIEOptions);
 	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 	        	capabilities.setCapability("ignoreZoomSetting", true);
+	        	System.setProperty("webdriver.ie.driver.loglevel", "INFO");
 //	    		DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
 //	    		capabilities.setCapability(InternetExplorerDriver
 //	    		 .INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
