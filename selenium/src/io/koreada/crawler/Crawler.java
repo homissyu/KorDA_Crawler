@@ -5,17 +5,19 @@ package io.koreada.crawler;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.koreada.executer.Executer;
 import io.koreada.executer.ExecuterIBK;
-import io.koreada.executer.ExecuterNH;
 import io.koreada.parser.HashCodeList;
 import io.koreada.supportfactory.APIFactory;
 import io.koreada.util.CommonConst;
@@ -73,10 +75,7 @@ public class Crawler {
 	    	case 0:
 	    		mExecuter = new ExecuterIBK(mDebug, mInstall, aBackupHashCodeList);
 	    		break;
-	    	case 1:
-	    		mExecuter = new ExecuterNH(mDebug, mInstall, aBackupHashCodeList);
-	    		break;
-    		default:
+	    	default:
     			mExecuter = new ExecuterIBK(mDebug, mInstall, aBackupHashCodeList);
     			break;
     	}
@@ -140,19 +139,22 @@ public class Crawler {
 		public void run(){
 			try {	
 		    	if(!mShutdown){
-		    		obj = mExecuter.operate();
-//		    		System.out.println(obj);
-//		    		System.out.println(obj.isEmpty());
-//		    		System.out.println(obj.size());
-		    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
-		    				|| !obj.isEmpty()) {
-		    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
-		    				mapper.writeValue(jg, obj);
-		    				jg.writeRaw(System.lineSeparator());
-				    	}else {
-				    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aAccountFileName), obj);
-				    	}
-		    			if(mApi.send2API(mapper.writeValueAsString(obj))) writeHashCodeListFile(mExecuter.getHashCodeList());
+		    		int iMode = Integer.parseInt((mInstall.getProperty(Install.SMART_BRIDGE_CRAWLER_TYPE)));
+		    		switch(iMode) {
+			    		case CommonConst.OPERATION_TOTAL:
+			    			operateSchedule(CommonConst.OPERATION_DEPOSIT);
+			    			operateSchedule(CommonConst.OPERATION_WITHDRAW);
+			    			break;
+			    		case CommonConst.OPERATION_WITHDRAW:
+			    			operateSchedule(CommonConst.OPERATION_WITHDRAW);
+			    			break;
+			    		case CommonConst.OPERATION_DEPOSIT:
+			    			operateSchedule(CommonConst.OPERATION_DEPOSIT);
+			    			break;
+		    			default:
+		    				operateSchedule(CommonConst.OPERATION_DEPOSIT);
+		    				operateSchedule(CommonConst.OPERATION_WITHDRAW);
+			    			break;
 		    		}
 		    	}else{
 		    		jg.close();
@@ -162,7 +164,25 @@ public class Crawler {
 				ex.printStackTrace();
 				Debug.traceError(SUBSYSTEM, ex,ex.getLocalizedMessage());
 			} 
-	    }		
+	    }
+		
+		private void operateSchedule(int iMode) throws JsonGenerationException, JsonMappingException, IOException, InterruptedException {
+			obj = mExecuter.operate(iMode);
+    		System.out.println(obj);
+//    		System.out.println(obj.isEmpty());
+//    		System.out.println(obj.size());
+    		if(Install.RESULT_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_TYPE))
+    				|| !obj.isEmpty()) {
+    			if(Install.RESULT_LOG_TYPE_DEFAULT.equals(mInstall.getProperty(Install.RESULT_LOG_TYPE))) {
+    				mapper.writeValue(jg, obj);
+    				jg.writeRaw(System.lineSeparator());
+		    	}else {
+		    		mapper.writeValue(new File(CommonConst.CURRENT_DIR + File.separator + CommonConst.LOGS_DIR + File.separator + CommonUtil.getCurrentTime(CommonConst.DATETIME_FORMAT)+ CommonConst.CURRENT_DIR + aAccountFileName), obj);
+		    	}
+    			if(1 == Integer.parseInt(mInstall.getProperty(Install.OPERATION_MODE)) && mApi.deposit2API(mapper.writeValueAsString(obj))) writeHashCodeListFile(mExecuter.getHashCodeList());
+    		}
+    		Thread.sleep(100);
+		}
 	}
 
 }

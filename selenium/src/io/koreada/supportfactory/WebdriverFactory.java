@@ -55,6 +55,7 @@ public class WebdriverFactory {
     	mWebDriverID = CommonConst.WEBDRIVER_ID_ARR[iType];
     	mWebDriverName = CommonConst.WEBDRIVER_STR_ARR[iType];
     	if(CommonConst.getOSName().equalsIgnoreCase("Windows")) mWebDriverName += ".exe";
+//    	System.out.println(mInstall.getLibDir());
     	System.setProperty(mWebDriverID, mInstall.getLibDir() + File.separator + CommonConst.WEBDRIVER_PATH + File.separator + mWebDriverName);
     	capabilities = new DesiredCapabilities();
     	WebDriver ret = null;
@@ -115,7 +116,7 @@ public class WebdriverFactory {
 	        	capabilities.setCapability(ChromeOptions.CAPABILITY, mIEOptions);
 	        	capabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 	        	capabilities.setCapability("ignoreZoomSetting", true);
-	        	System.setProperty("webdriver.ie.driver.loglevel", "INFO");
+//	        	System.setProperty("webdriver.ie.driver.loglevel", "INFO");
 //	    		DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
 //	    		capabilities.setCapability(InternetExplorerDriver
 //	    		 .INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);

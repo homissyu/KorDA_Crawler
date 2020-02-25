@@ -20,9 +20,9 @@ public class IBK {
 				accountInfo = new AccountInfo();
 				accountInfo.setNo(i/10);
 				accountInfo.setRegData(arr[i]);
-//				accountInfo.setWithdraw(arr[i+1]);
+				accountInfo.setWithdraw(arr[i+1]);
 				accountInfo.setDeposit(arr[i+2]);
-//				accountInfo.setBalance(arr[i+3]);
+				accountInfo.setBalance(arr[i+3]);
 				accountInfo.setContents(arr[i+4]);
 				accountInfo.setSrcAccNo(arr[i+5]);
 				accountInfo.setSrcBank(arr[i+6]);

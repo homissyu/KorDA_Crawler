@@ -94,7 +94,7 @@ public class CommonConst{
 	public static final int ENC_BYTE_64 = 512;
 	public static final String PROVIDER_BC = "BC";
 	public static final String RSA_NOPADDING_STR = "RSA/None/NoPadding";
-	public static final String PBKDF = "PBKDF2WithHmacSHA256";
+	public static final String PBKD_WITH_SHA256 = "PBKDF2WithHmacSHA256";
 	public static final int ITERATION_CNT = 65536;
 	public static final int ENC_BYTE_16 = 128;
 	public static final String PARITY_FILE_NAME = "PARITY_FILE_NAME";
@@ -152,7 +152,11 @@ public class CommonConst{
 	public static final String WEB_DRIVER_DIR_STR = "webdriver";
 	public static final String TOUCH_EN_FIREFOX_PATH = CommonConst.BROWSER_EXT_STR + File.separator + "touchenex@raon.co.kr.xpi";
 	public static final String BACKUP_FILE_NAME = "backup.bak";
-	 public static char[] getSalphabetdecimalchar() {
+	public static final String PBKD_WITH_SHA1 = "PBKDF2WithHmacSHA1";
+	public static final int OPERATION_TOTAL = 0;
+	public static final int OPERATION_WITHDRAW = 2;
+	public static final int OPERATION_DEPOSIT = 1;
+	public static char[] getSalphabetdecimalchar() {
 			return sAlphabetDecimalChar;
-		}
+	}
 }

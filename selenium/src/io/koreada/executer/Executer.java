@@ -7,7 +7,7 @@ import io.koreada.parser.HashCodeList;
 public abstract class Executer {
 	public void closeDriver() {
 	};
-	public ArrayList<?> operate(){
+	public ArrayList<?> operate(int iMode){
 		return null;
 	}
 	public HashCodeList getHashCodeList() {

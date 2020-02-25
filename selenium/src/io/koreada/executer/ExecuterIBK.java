@@ -60,7 +60,7 @@ public class ExecuterIBK extends Executer {
 		if(this.driver != null) this.driver.quit();
 	}
 	
-	public ArrayList<?> operate(){
+	public ArrayList<?> operate(int iMode){
 		this.driver = wf.getDriver();
     	ArrayList<?> ret = new ArrayList();
     	try {
@@ -73,8 +73,21 @@ public class ExecuterIBK extends Executer {
             WebElement accountElement = driver.findElement(By.xpath(".//*[@id='in_cus_acn']"));
             WebElement passElement = driver.findElement(By.xpath(".//*[@id='acnt_pwd']"));
             WebElement bizNoElement = driver.findElement(By.xpath(".//*[@id='rnno']"));
-            WebElement cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
-            
+            WebElement cateElement = null;
+            switch(iMode) {
+	            case 0:
+	            	cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_01']"));
+	            	break;
+	            case 1:
+	            	cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_02']"));
+	            	break;
+	            case 2:
+	            	cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_03']"));
+	            	break;
+	            default:
+	            	cateElement = driver.findElement(By.xpath(".//*[@id='rdo_inq_dcd_01']"));
+	            	break;
+            }
             new WebDriverWait(driver,30).until(ExpectedConditions.elementToBeClickable(accountElement));
             accountElement.click();
             accountElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_ACC_NO));
@@ -86,9 +99,9 @@ public class ExecuterIBK extends Executer {
             bizNoElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_BIZ_NO));
             Thread.sleep(100);
 	        cateElement.click();
-	        cateElement.sendKeys("1");
+	        cateElement.sendKeys(mInstall.getProperty(Install.SMART_BRIDGE_CRAWLER_TYPE));
 	        Thread.sleep(100);
-	        
+
 	        JavascriptExecutor jse = (JavascriptExecutor)driver;
 	        jse.executeScript("setCount2(30)");
 
@@ -138,7 +151,6 @@ public class ExecuterIBK extends Executer {
 //	        System.out.println(ret);
 	        mOldHashCodeList.clear();
 	        mOldHashCodeList.addAll(mNewHashCodeList);
-	        
 		} catch (UnhandledAlertException e) {
 		    Alert alert = driver.switchTo().alert();
 		    alert.dismiss();

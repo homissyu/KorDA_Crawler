@@ -1,7 +1,11 @@
 package io.koreada.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 import io.koreada.util.CommonConst;
 
@@ -80,5 +84,32 @@ public class CommonUtil {
         }
         sUniqueID.append(((int)(Math.random() * 100)));
         return sUniqueID.toString();
+    }
+    
+    /**
+     * @param arrList
+     * @return
+     */
+    public static Vector<Vector<Object>> toVector(ArrayList<?> arrList){
+    	Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+//    	System.out.println(arrList);
+    	Iterator<?> dataIt = arrList.iterator();
+    	HashMap<?, ?> currentRow = null;
+    	Iterator<?> rowIt = null;
+    	Object colValue = null;
+    	while(dataIt.hasNext()){
+            currentRow = (HashMap<?, ?>)dataIt.next();
+//            System.out.println(currentRow);
+            
+            rowIt = currentRow.keySet().iterator();
+            Vector<Object> row = new Vector<Object>();
+            while(rowIt.hasNext()){
+                colValue = (Object)currentRow.get(rowIt.next());
+                row.addElement(colValue);
+            }
+            row.addElement(currentRow);
+            data.addElement(row);
+    	}
+    	return data;
     }
 }

@@ -18,7 +18,7 @@ public class APIFactory {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public boolean send2API(String aParam) throws IOException {
+	public boolean deposit2API(String aParam) throws IOException {                                                                                                    
     	boolean ret = false;
 		URL url = null;
     	DataOutputStream dos = null;

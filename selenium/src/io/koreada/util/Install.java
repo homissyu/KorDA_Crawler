@@ -36,7 +36,10 @@ public class Install {
     public static final String INSTALL_DIR_DEFAULT = ".";
     public static final String CONFIG_FILE = "CONFIG_FILE";
     public static final String CONFIG_FILE_DEFAULT = "NWebChecker.conf";
-
+    
+    public static final String OPERATION_MODE = "OPERATION.MODE";
+    public static final String OPERATION_MODE_DEFAULT = "0";
+    
     // Output Configuration
     public static final String DEBUG_SUBSYSTEM = "LOG.SUBSYSTEM";
     public static final String DEBUG_SUBSYSTEM_DEFAULT = "ALL";
@@ -90,11 +93,12 @@ public class Install {
     public static final String SMART_BRIDGE_BANK_PASS = "SB.PASS";
     public static final String SMART_BRIDGE_BANK_PASS_DEFAULT = "0000";
     
+    public static final String SMART_BRIDGE_CRAWLER_TYPE = "SB.TYPE";
+    public static final String SMART_BRIDGE_CRAWLER_TYPE_DEFAULT = "0";
+    
     // Daemon
     public static final String DAEMON_INTERVAL = "DAEMON.INTERVAL";
-    public static final String DAEMON_INTERVAL_DEFAULT = "20"; //seconds
-//    public static final String DB_INTERVAL = "DB.INTERVAL";
-//    public static final String DB_INTERVAL_DEFAULT = "60"; //seconds
+    public static final String DAEMON_INTERVAL_DEFAULT = "60"; //seconds
 
     private static final String UNDECODED_PASSWORD_STRING = "UNDECODED_PASSWORD_STRING";
 
@@ -110,6 +114,8 @@ public class Install {
         //system
         INSTALL_DIR, INSTALL_DIR_DEFAULT,
         CONFIG_FILE, CONFIG_FILE_DEFAULT,
+        
+        OPERATION_MODE, OPERATION_MODE_DEFAULT,
 
         // Debug
         DEBUG_SUBSYSTEM, DEBUG_SUBSYSTEM_DEFAULT,
@@ -724,5 +730,7 @@ public class Install {
 
         return ret;
     }
+    
+    
 
 }
