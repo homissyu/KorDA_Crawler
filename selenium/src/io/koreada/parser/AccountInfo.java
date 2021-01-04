@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import io.koreada.util.CommonConst;
+import io.koreada.util.CommonUtil;
 import io.koreada.util.CryptoUtils;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
@@ -60,7 +61,8 @@ public class AccountInfo {
 		return contents;
 	}
 	protected void setContents(String contents) {
-		this.contents = contents;
+//		this.contents = contents;
+		this.contents = CommonUtil.toHalfChar(contents);
 	}
 	protected String getSrcAccNo() {
 		return srcAccNo;
@@ -108,7 +110,7 @@ public class AccountInfo {
 		ret.append(CommonConst.COMMA);
 		ret.append("Contents="+this.getContents());
 		ret.append(CommonConst.COMMA);
-		ret.append("                                                                                                                                 AccountNo="+this.getSrcAccNo());
+		ret.append("AccountNo="+this.getSrcAccNo());
 		ret.append(CommonConst.COMMA);
 		ret.append("SrcBank="+this.getSrcBank());
 		ret.append(CommonConst.COMMA);
@@ -128,6 +130,7 @@ public class AccountInfo {
 	}
 	
 	protected void setHashCode() throws NoSuchAlgorithmException {
+		System.out.println(this.toString());
 		this.hashCode = CryptoUtils.generateSHA256(this.toString());
 	}
 }

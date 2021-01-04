@@ -112,4 +112,22 @@ public class CommonUtil {
     	}
     	return data;
     }
+
+	public static String toHalfChar(String src) {
+		// TODO Auto-generated method stub
+		StringBuffer strBuf = new StringBuffer();
+        char c = 0;
+        for (int i = 0; i < src.length(); i++) {
+            c = src.toUpperCase().charAt(i);
+            if (c >= 'A' && c <= 'Z') {
+                c = c;
+            } else if (c >= '！' && c <= '～') {
+                c -= 0xfee0;
+            }   else if (c == '　')  {
+                c = 0x20;
+            }
+            strBuf.append(c);
+        }
+        return strBuf.toString();
+	}
 }

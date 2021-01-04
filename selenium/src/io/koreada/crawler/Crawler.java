@@ -120,7 +120,7 @@ public class Crawler {
 		return (HashCodeList)FileHandler.readSerFile(mInstall.getRootDir() + File.separator + CommonConst.BACKUP_FILE_NAME);
 	}
     
-    // Main Method
+    // Main Method 
 	public static void main(String[] args) {
 		Crawler.initialize(args);
 		Crawler wc = null;
@@ -140,6 +140,7 @@ public class Crawler {
 			try {	
 		    	if(!mShutdown){
 		    		int iMode = Integer.parseInt((mInstall.getProperty(Install.SMART_BRIDGE_CRAWLER_TYPE)));
+		    		System.out.println("iMode:"+iMode);
 		    		switch(iMode) {
 			    		case CommonConst.OPERATION_TOTAL:
 			    			operateSchedule(CommonConst.OPERATION_DEPOSIT);

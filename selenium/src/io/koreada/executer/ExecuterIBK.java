@@ -116,9 +116,9 @@ public class ExecuterIBK extends Executer {
         				(inputLine.split("grid_area")[3]).split("'")[2]
         		);
         	}else if(inputLine.contains("\"result\":\"error\"")) throw new Exception("Exception Occured! : "+inputLine);
-
+//            System.out.println("response.toString():"+response.toString());
 	        ret = ibkParser.parse(response.toString());
-//	        System.out.println("ret:"+ret);
+	        System.out.println("ret:"+ret);
 //	        System.out.println("ibkParser.getHashCodeList():"+ ibkParser.getHashCodeList());
 
 	        mNewHashCodeList.clear();
